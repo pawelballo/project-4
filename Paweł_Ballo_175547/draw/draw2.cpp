@@ -456,7 +456,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			spr(&koniec, &srodek);
 			koniec.x = srodek.x + cos(koniec.poz) * R;
 			koniec.y = srodek.y + sin(koniec.poz) * R;
-			if (koniec.y > 600) {
+			if (koniec.y >=600) {
 				koniec.poz = 6.28 - r2;
 				spr(&koniec, &srodek);
 				m = m - q + (((koniec.poz - r1) * 180) / 3.14);
@@ -478,10 +478,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			koniec.x = srodek.x + cos(koniec.poz) * R;
 			koniec.y = srodek.y + sin(koniec.poz) * R;
 			spr(&koniec, &srodek);
-			if (koniec.y > 600) {
+			if (koniec.y >=600) {
 				koniec.poz = 6.28 - r4;
 				spr(&koniec, &srodek);
-				m = m + q - (((koniec.poz - r1) * 180) / 3.14);
+				m = m + q - (((koniec.poz - r3) * 180) / 3.14);
 				spraw(&m, &n);
 				koniec.y = 600;
 				koniec.x = srodek.x + cos(koniec.poz) * R;
