@@ -7,28 +7,32 @@
 #include <cmath>
 #include <math.h>
 #include <atlstr.h>
+#include <ctime>
 #include <sstream>
 #include <string>
+#include <cstdlib>
 #include <windows.h>
 #include <iostream>
 #include <fstream>
 #include <cstdio>
 #include <gdiplus.h>
 
-#define MAX_LOADSTRING 100
-#define TMR_1 1
-
 using namespace Gdiplus;
-
 struct pozycja {
 	float x;
 	float y;
 	float poz;
 };
 
-struct col {
+struct bufor {
 	pozycja middle;
 	pozycja end;
+};
+
+struct object {
+	float x;
+	float y;
+	float weight;
 };
 
 const int R = 200;
@@ -36,18 +40,24 @@ int q = 4;
 float m = 0;
 float n = 0;
 bool zapisuje = false;
-std::queue<col> zapis;
+bool obj = false;
+std::queue<bufor> zapis;
 pozycja srodek;
 pozycja koniec;
-HINSTANCE hInst;								
-TCHAR szTitle[MAX_LOADSTRING];					
-TCHAR szWindowClass[MAX_LOADSTRING];			
+object objekt1;
+object objekt2;
+object objekt3;
+object objekt4;
+HINSTANCE hInst;
+
+TCHAR szTitle[MAX_LOADSTRING];
+TCHAR szWindowClass[MAX_LOADSTRING];
 
 HWND hwndButton;
 HWND hwndText;
 
 
-RECT drawArea1 = { 0, 200, 1000, 601 };
+RECT drawArea1 = { 0, 190, 1000, 640 };
 
 ATOM				MyRegisterClass(HINSTANCE hInstance);
 BOOL				InitInstance(HINSTANCE, int);
@@ -55,12 +65,13 @@ LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK	About(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK	Buttons(HWND, UINT, WPARAM, LPARAM);
 
+void creatobject(object* b, int i);
 
 void PaintRobot(HDC hdc) {
 	Graphics graphics(hdc);
 	SmoothingMode smoothingMode = SmoothingModeAntiAlias;
 	graphics.SetSmoothingMode(smoothingMode);
-	SolidBrush brush1(Color(255, 255, 0, 0));
+	SolidBrush brus1(Color(255, 255, 0, 0));
 	Pen pen2(Color(255, 0, 0, 255), 2.5);
 	Pen pen5(Color(255, 0, 0, 0), 2.5);
 	float i, j;
@@ -70,9 +81,26 @@ void PaintRobot(HDC hdc) {
 	graphics.DrawLine(&pen2, srodek.x, srodek.y, koniec.x, koniec.y);
 	graphics.DrawLine(&pen2, i, j, srodek.x, srodek.y);
 	i = 10;
-	graphics.FillEllipse(&brush1, srodek.x - 5, srodek.y - 5, i, i);
-	graphics.FillEllipse(&brush1, koniec.x - 5, koniec.y - 5, i, i);
-	graphics.FillEllipse(&brush1, 495, 595, 10, 10);
+	graphics.FillEllipse(&brus1, srodek.x - 5, srodek.y - 5, i, i);
+	graphics.FillEllipse(&brus1, koniec.x - 5, koniec.y - 5, i, i);
+	graphics.FillEllipse(&brus1, 495, 595, 10, 10);
+	int i4 = 0;
+	SolidBrush brush1(Color(255, 0, 100, 0));
+	if (obj == true)creatobject(&objekt1, i4);
+	i4 = 1;
+	graphics.FillEllipse(&brush1, (int)objekt1.x, (int)objekt1.y, 40, 40);
+	SolidBrush brush2(Color(255, 255, 215, 0));
+	if (obj == true)creatobject(&objekt2, i4);
+	i4 = 2;
+	graphics.FillEllipse(&brush2, (int)objekt2.x, (int)objekt2.y, 40, 40);
+	SolidBrush brush3(Color(255, 255, 69, 0));
+	if (obj == true)creatobject(&objekt3, i4);
+	i4 = 3;
+	graphics.FillEllipse(&brush3, (int)objekt3.x, (int)objekt3.y, 40, 40);
+	SolidBrush brush4(Color(255, 106, 90, 205));
+	if (obj == true)creatobject(&objekt4, i4);
+	graphics.FillEllipse(&brush4, (int)objekt4.x, (int)objekt4.y, 40, 40);
+	obj = false;
 }
 
 void StartPaintRobot(HDC hdc) {
@@ -80,12 +108,12 @@ void StartPaintRobot(HDC hdc) {
 	srodek.y = 480;
 	koniec.x = 820;
 	koniec.y = 360;
-	srodek.poz= 2 * 3.14 - asin(0.6);
-	koniec.poz= 2 * 3.14 - asin(0.6);
+	srodek.poz = 2 * 3.14 - asin(0.6);
+	koniec.poz = 2 * 3.14 - asin(0.6);
 	PaintRobot(hdc);
 }
 
-void RepaintRobot(HWND hWnd, HDC &hdc, PAINTSTRUCT &ps, RECT *drawArea)
+void RepaintRobot(HWND hWnd, HDC& hdc, PAINTSTRUCT& ps, RECT* drawArea)
 {
 	hdc = BeginPaint(hWnd, &ps);
 	PaintRobot(hdc);
@@ -95,6 +123,7 @@ void RepaintRobot(HWND hWnd, HDC &hdc, PAINTSTRUCT &ps, RECT *drawArea)
 
 int OnCreate(HWND window)
 {
+	srand(time(NULL));
 	return 0;
 }
 
@@ -168,22 +197,22 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	HWND hWnd;
 
 
-	hInst = hInstance; 
+	hInst = hInstance;
 
 	hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
 
-	                                     
-	
-	hwndButton = CreateWindow(TEXT("button"),                    
-		TEXT("koniec++"),                  
-		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,  
-		0, 0,                                 
-		80, 50,                              
-		hWnd,                                
-		(HMENU)ID_BUTTON1,                   
-		hInstance,                            
-		NULL);  
+
+
+	hwndButton = CreateWindow(TEXT("button"),
+		TEXT("koniec++"),
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		0, 0,
+		80, 50,
+		hWnd,
+		(HMENU)ID_BUTTON1,
+		hInstance,
+		NULL);
 
 	hwndButton = CreateWindow(TEXT("button"),
 		TEXT("koniec--"),
@@ -253,7 +282,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		TEXT("koniec zapisu"),
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		640, 0,
-		80, 50,
+		90, 50,
 		hWnd,
 		(HMENU)ID_BUTTON9,
 		hInstance,
@@ -261,10 +290,37 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	hwndButton = CreateWindow(TEXT("button"),
 		TEXT("odwtorz"),
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		720, 0,
+		730, 0,
 		80, 50,
 		hWnd,
 		(HMENU)ID_BUTTON10,
+		hInstance,
+		NULL);
+	hwndButton = CreateWindow(TEXT("button"),
+		TEXT("grab"),
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		810, 0,
+		80, 50,
+		hWnd,
+		(HMENU)ID_BUTTON11,
+		hInstance,
+		NULL);
+	hwndButton = CreateWindow(TEXT("button"),
+		TEXT("drop"),
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		890, 0,
+		80, 50,
+		hWnd,
+		(HMENU)ID_BUTTON12,
+		hInstance,
+		NULL);
+	hwndButton = CreateWindow(TEXT("button"),
+		TEXT("Creating objects"),
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		970, 0,
+		110, 50,
+		hWnd,
+		(HMENU)ID_BUTTON13,
 		hInstance,
 		NULL);
 	OnCreate(hWnd);
@@ -292,8 +348,8 @@ void spr(pozycja* koniec1, pozycja* srodek2) {
 	}
 }
 
-void saving(std::queue<col> *save, pozycja *middle, pozycja *end) {
-	col tymczas;
+void saving(std::queue<bufor>* save, pozycja* middle, pozycja* end) {
+	bufor tymczas;
 	tymczas.middle.poz = middle->poz;
 	tymczas.middle.x = middle->x;
 	tymczas.middle.y = middle->y;
@@ -301,16 +357,16 @@ void saving(std::queue<col> *save, pozycja *middle, pozycja *end) {
 	tymczas.end.x = end->x;
 	tymczas.end.y = end->y;
 	if (!(*save).empty()) {
-		col r;
+		bufor r;
 		r = (*save).back();
-		if (r.end.x != tymczas.end.x && r.end.y != tymczas.end.y && r.end.poz != tymczas.end.poz && r.middle.x != tymczas.middle.x && r.middle.y != tymczas.middle.y && r.middle.poz != tymczas.middle.poz) (*save).push(tymczas);
+		if ((r.end.x != tymczas.end.x) || (r.end.y != tymczas.end.y) || (r.end.poz != tymczas.end.poz) || (r.middle.x != tymczas.middle.x) || (r.middle.y != tymczas.middle.y) || (r.middle.poz != tymczas.middle.poz)) (*save).push(tymczas);
 	}
 	if ((*save).empty()) (*save).push(tymczas);
 }
 
-void spraw(float *k1, float *k2) {
-	while (*k1<0 || *k1>=360) {
-		if (*k1 >= 360)*k1 = *k1 - 360;
+void spraw(float* k1, float* k2) {
+	while (*k1 < 0 || *k1 >= 360) {
+		if (*k1 >= 360)* k1 = *k1 - 360;
 		if (*k1 < 0)* k1 = *k1 + 360;
 	}
 	while (*k2 < 0 || *k2 >= 360) {
@@ -319,12 +375,60 @@ void spraw(float *k1, float *k2) {
 	}
 }
 
+int play(std::queue<bufor>* save, HWND hWnd) {
+	if ((*save).empty()) return 0;
+	else {
+		InvalidateRect(hWnd, &drawArea1, TRUE);
+		srodek.x = ((*save).front()).middle.x;
+		srodek.y = ((*save).front()).middle.y;
+		koniec.x = ((*save).front()).end.x;
+		koniec.y = ((*save).front()).end.y;
+		(*save).pop();
+		return 1;
+	}
+}
+
+void creatobject(object* b, int i) {
+	int wylos = 0;
+	if (i == 0) {
+		wylos = (std::rand() % 320) + 110;
+		(*b).y = 560;
+		(*b).x = wylos;
+		(*b).weight = (std::rand() % 20) + 1;
+	}
+	if (i == 1) {
+		do {
+			wylos = (std::rand() % 320) + 110;
+		} while (!((objekt1.x > wylos + 40 && objekt1.x > wylos) || (objekt1.x + 40 < wylos && objekt1.x + 40 < wylos + 40)));
+		(*b).y = 560;
+		(*b).x = wylos;
+		(*b).weight = (std::rand() % 20) + 1;
+	}
+	if (i == 2) {
+		do {
+			wylos = (std::rand() % 320) + 110;
+		} while (!(((objekt1.x > wylos + 40 && objekt1.x > wylos) || (objekt1.x + 40 < wylos && objekt1.x + 40 < wylos + 40)) && ((objekt2.x > wylos + 40 && objekt2.x > wylos) || (objekt2.x + 40 < wylos && objekt2.x + 40 < wylos + 40))));
+		(*b).y = 560;
+		(*b).x = wylos;
+		(*b).weight = (std::rand() % 20) + 1;
+	}
+	if (i == 3) {
+		do {
+			wylos = (std::rand() % 320) + 110;
+		} while (!(((objekt1.x > wylos + 40 && objekt1.x > wylos) || (objekt1.x + 40 < wylos && objekt1.x + 40 < wylos + 40)) && ((objekt2.x > wylos + 40 && objekt2.x > wylos) || (objekt2.x + 40 < wylos && objekt2.x + 40 < wylos + 40)) && ((objekt3.x > wylos + 40 && objekt3.x > wylos) || (objekt3.x + 40 < wylos && objekt3.x + 40 < wylos + 40))));
+		(*b).y = 560;
+		(*b).x = wylos;
+		(*b).weight = (std::rand() % 20) + 1;
+	}
+}
+
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	int wmId, wmEvent;
-	PAINTSTRUCT ps;
-	HDC hdc;
-	float pp= 2 * 3.14 - asin(0.6);
+	PAINTSTRUCT ps, pr;
+	HDC hdc, hdc1;
+	float pp = 2 * 3.14 - asin(0.6);
 	switch (message)
 	{
 	case WM_COMMAND:
@@ -339,11 +443,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case IDM_EXIT:
 			DestroyWindow(hWnd);
 			break;
-		case ID_BUTTON1 :
-			InvalidateRect(hWnd, NULL, TRUE);
+		case ID_BUTTON1:
+			InvalidateRect(hWnd, &drawArea1, TRUE);
 			m = m + q;
 			spraw(&m, &n);
-			float r1,r2;
+			float r1, r2;
 			r1 = koniec.poz;
 			r2 = srodek.poz;
 			koniec.poz = pp + ((3.14 * m) / 180);
@@ -351,18 +455,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			koniec.x = srodek.x + cos(koniec.poz) * R;
 			koniec.y = srodek.y + sin(koniec.poz) * R;
 			if (koniec.y > 600) {
-				koniec.poz = 6.28-r2;
+				koniec.poz = 6.28 - r2;
 				spr(&koniec, &srodek);
-				m = m - q + (((koniec.poz-r1)*180)/3.14);
+				m = m - q + (((koniec.poz - r1) * 180) / 3.14);
 				spraw(&m, &n);
 				koniec.y = 600;
 				koniec.x = srodek.x + cos(koniec.poz) * R;
 			}
 			if (zapisuje == true) saving(&zapis, &srodek, &koniec);
-			RepaintRobot(hWnd, hdc, ps, NULL);
+			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			break;
 		case ID_BUTTON2:
-			InvalidateRect(hWnd, NULL, TRUE);
+			InvalidateRect(hWnd, &drawArea1, TRUE);
 			m = m - q;
 			spraw(&m, &n);
 			float r3, r4;
@@ -375,16 +479,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			if (koniec.y > 600) {
 				koniec.poz = 6.28 - r4;
 				spr(&koniec, &srodek);
-				m = m + q -  (((koniec.poz - r1) * 180) / 3.14);
+				m = m + q - (((koniec.poz - r1) * 180) / 3.14);
 				spraw(&m, &n);
 				koniec.y = 600;
 				koniec.x = srodek.x + cos(koniec.poz) * R;
 			}
 			if (zapisuje == true) saving(&zapis, &srodek, &koniec);
-			RepaintRobot(hWnd, hdc, ps, NULL);
+			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			break;
 		case ID_BUTTON3:
-			InvalidateRect(hWnd, NULL, TRUE);
+			InvalidateRect(hWnd, &drawArea1, TRUE);
 			float k1, k2;
 			k2 = srodek.poz;
 			k1 = koniec.poz;
@@ -398,9 +502,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			srodek.y = 600 + sin(srodek.poz) * R;
 			koniec.x = srodek.x + cos(koniec.poz) * R;
 			koniec.y = srodek.y + sin(koniec.poz) * R;
-			if (srodek.y>=600 && ((k2<6.28 && k2>4.71)||k2==0)) {
+			if (srodek.y >= 600 && ((k2 < 6.28 && k2>4.71) || k2 == 0)) {
 				koniec.poz = k1 + 6.28 - k2;
-				srodek.poz =0;
+				srodek.poz = 0;
 				spr(&koniec, &srodek);
 				m = m - q + (((6.28 - k2) * 180) / 3.14);
 				n = n - q + (((6.28 - k2) * 180) / 3.14);
@@ -412,7 +516,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			}
 			else if (koniec.y > 600) {
 				srodek.poz = 3.14 - ((k1 - k2) / 2);
-				koniec.poz = k1 + (srodek.poz-k2);
+				koniec.poz = k1 + (srodek.poz - k2);
 				spr(&koniec, &srodek);
 				m = m - q + (((srodek.poz - k2) * 180) / 3.14);
 				n = n - q + (((srodek.poz - k2) * 180) / 3.14);
@@ -423,11 +527,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				srodek.y = 600 + sin(srodek.poz) * R;
 			}
 			if (zapisuje == true) saving(&zapis, &srodek, &koniec);
-			RepaintRobot(hWnd, hdc, ps, NULL);
+			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			break;
 		case ID_BUTTON4:
-			InvalidateRect(hWnd, NULL, TRUE);
-			float p1,p2;
+			InvalidateRect(hWnd, &drawArea1, TRUE);
+			float p1, p2;
 			p1 = srodek.poz;
 			p2 = koniec.poz;
 			n = n - q;
@@ -440,53 +544,53 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			srodek.y = 600 + sin(srodek.poz) * R;
 			koniec.x = srodek.x + cos(koniec.poz) * R;
 			koniec.y = srodek.y + sin(koniec.poz) * R;
-			if (srodek.y >= 600 && ((p1 > 3.14 && p1<4.71))||p1==3.14) {
+			if (srodek.y >= 600 && ((p1 > 3.14 && p1 < 4.71)) || p1 == 3.14) {
 				koniec.poz = p2 - p1 + 3.14;
 				srodek.poz = 3.14;
 				spr(&koniec, &srodek);
-				m = m +q-(((p1 - 3.14) * 180) / 3.14);
-			    n = n+ q-(((p1 - 3.14) * 180) / 3.14); 
+				m = m + q - (((p1 - 3.14) * 180) / 3.14);
+				n = n + q - (((p1 - 3.14) * 180) / 3.14);
 				spraw(&m, &n);
 				srodek.x = 500 + cos(srodek.poz) * R;
 				koniec.x = srodek.x + cos(koniec.poz) * R;
 				srodek.y = 600;
 				koniec.y = srodek.y + sin(koniec.poz) * R;
 			}
-			else if(koniec.y>600) {
+			else if (koniec.y > 600) {
 				srodek.poz = 3.14 + ((p1 - p2) / 2);
 				koniec.poz = p2 - ((p1 + p2) / 2) + 3.14;
 				spr(&koniec, &srodek);
-				m = m +q- (((((p1 + p2) / 2) - 3.14) * 180) / 3.14);
-				n = n + q- (((((p1 + p2) / 2) - 3.14) * 180) / 3.14);
+				m = m + q - (((((p1 + p2) / 2) - 3.14) * 180) / 3.14);
+				n = n + q - (((((p1 + p2) / 2) - 3.14) * 180) / 3.14);
 				spraw(&m, &n);
 				srodek.x = 500 + cos(srodek.poz) * R;
 				koniec.x = srodek.x + cos(koniec.poz) * R;
 				koniec.y = 600;
-				srodek.y = 600 + sin(srodek.poz)*R;
+				srodek.y = 600 + sin(srodek.poz) * R;
 			}
 			if (zapisuje == true) saving(&zapis, &srodek, &koniec);
-			RepaintRobot(hWnd, hdc, ps, NULL);
+			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			break;
 		case ID_BUTTON6:
-			q-=2;
-			if (q <=0) q = 1;
+			q -= 2;
+			if (q <= 0) q = 1;
 			break;
 		case ID_BUTTON5:
-			q+=2;
+			q += 2;
 			if (q >= 30) q = 28;
 			break;
 		case ID_BUTTON7:
-			InvalidateRect(hWnd, NULL, TRUE);
+			InvalidateRect(hWnd, &drawArea1, TRUE);
 			n = 0;
 			m = 0;
 			srodek.x = 660;
 			srodek.y = 480;
 			koniec.x = 820;
 			koniec.y = 360;
-			srodek.poz =pp;
-			koniec.poz =pp;
+			srodek.poz = pp;
+			koniec.poz = pp;
 			if (zapisuje == true) saving(&zapis, &srodek, &koniec);
- 			RepaintRobot(hWnd, hdc, ps, NULL);
+			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			break;
 		case ID_BUTTON8:
 			zapisuje = true;
@@ -496,6 +600,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			zapisuje = false;
 			break;
 		case ID_BUTTON10:
+			if (zapisuje == false) SetTimer(hWnd, TMR_1, 120, NULL);
+			break;
+		case ID_BUTTON11:
+
+			break;
+		case ID_BUTTON12:
+
+			break;
+		case ID_BUTTON13:
+			InvalidateRect(hWnd, &drawArea1, TRUE);
+			obj = true;
+			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
@@ -514,8 +630,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		switch (wParam)
 		{
 		case TMR_1:
-
-
+			int t1;
+			t1 = play(&zapis, hWnd);
+			if (t1 == 1) RepaintRobot(hWnd, hdc, ps, &drawArea1);
+			if (t1 == 0) KillTimer(hWnd, TMR_1);
 			break;
 		}
 

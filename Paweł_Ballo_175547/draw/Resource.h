@@ -4,7 +4,8 @@
 //
 
 #define IDS_APP_TITLE			103
-
+#define TMR_1					1
+#define MAX_LOADSTRING          100
 #define IDR_MAINFRAME			128
 #define IDD_DRAW_DIALOG	        102
 #define IDD_ABOUTBOX			103
@@ -28,6 +29,9 @@
 #define ID_BUTTON8				207
 #define ID_BUTTON9				208
 #define ID_BUTTON10				209
+#define ID_BUTTON11				210
+#define ID_BUTTON12				211
+#define ID_BUTTON13				212
 // Next default values for new objects
 //
 #ifdef APSTUDIO_INVOKED
