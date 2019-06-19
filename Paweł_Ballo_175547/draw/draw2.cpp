@@ -41,6 +41,7 @@ float m = 0;
 float n = 0;
 bool zapisuje = false;
 bool obj = false;
+bool obj1 = false;
 std::queue<bufor> zapis;
 pozycja srodek;
 pozycja koniec;
@@ -429,6 +430,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	PAINTSTRUCT ps, pr;
 	HDC hdc, hdc1;
 	float pp = 2 * 3.14 - asin(0.6);
+	bool grabb = false;
 	switch (message)
 	{
 	case WM_COMMAND:
@@ -603,7 +605,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			if (zapisuje == false) SetTimer(hWnd, TMR_1, 120, NULL);
 			break;
 		case ID_BUTTON11:
-
+			if (obj1 == true && ((pow((koniec.x - objekt1.x - 20), 2) + pow((koniec.y - objekt1.y - 20), 2) <= 400) || (pow((koniec.x - objekt2.x - 20), 2) + pow((koniec.y - objekt2.y - 20), 2) <= 400) || (pow((koniec.x - objekt3.x - 20), 2) + pow((koniec.y - objekt3.y - 20), 2) <= 400) || (pow((koniec.x - objekt4.x - 20), 2) + pow((koniec.y - objekt4.y - 20), 2) <= 400))) grabb = true;
+			//if (grabb == true) grab();
 			break;
 		case ID_BUTTON12:
 
@@ -611,6 +614,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case ID_BUTTON13:
 			InvalidateRect(hWnd, &drawArea1, TRUE);
 			obj = true;
+			obj1 = true;
 			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			break;
 		default:
