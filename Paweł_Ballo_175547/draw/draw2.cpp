@@ -43,8 +43,10 @@ struct bufor {
 const int R = 200;
 int q = 4;
 float m = 0;
+int id;
 float n = 0;
 bool zapisuje = false;
+bool dropping = false;
 bool obj = false;
 bool obj1 = false;
 float roznicaX = 0;
@@ -383,7 +385,7 @@ void saving(std::queue<bufor>* save, pozycja* middle, pozycja* end, object* obie
 	if (!(*save).empty()) {
 		bufor r;
 		r = (*save).back();
-		if ((r.end.x != tymczas.end.x) || (r.end.y != tymczas.end.y) || (r.end.poz != tymczas.end.poz) || (r.middle.x != tymczas.middle.x) || (r.middle.y != tymczas.middle.y) || (r.middle.poz != tymczas.middle.poz)) (*save).push(tymczas);
+		if (dropping ==true || (r.end.x != tymczas.end.x) || (r.end.y != tymczas.end.y) || (r.end.poz != tymczas.end.poz) || (r.middle.x != tymczas.middle.x) || (r.middle.y != tymczas.middle.y) || (r.middle.poz != tymczas.middle.poz)) (*save).push(tymczas);
 	}
 	if ((*save).empty()) (*save).push(tymczas);
 }
@@ -477,13 +479,48 @@ void grab() {
 	}
 }
 
+int drop() {
+	if (grabb1 == true) {
+		obiekt1.y = obiekt1.y + 20;
+		if (obiekt1.y >= 560) {
+			obiekt1.y = 560;
+			return 0;
+		}
+		else return 1;
+	}
+	if (grabb2 == true) {
+		obiekt2.y = obiekt2.y + 20;
+		if (obiekt2.y >= 560) {
+			obiekt2.y = 560;
+			return 0;
+		}
+		else return 1;
+	}
+	if (grabb3 == true) {
+		obiekt3.y = obiekt3.y + 20;
+		if (obiekt3.y >= 560) {
+			obiekt3.y = 560;
+			return 0;
+		}
+		else return 1;
+	}
+	if (grabb4 == true) {
+		obiekt4.y = obiekt4.y + 20;
+		if (obiekt4.y >= 560) {
+			obiekt4.y = 560;
+			return 0;
+		}
+		else return 1;
+	}
+}
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	int wmId, wmEvent;
-	PAINTSTRUCT ps, pr;
-	HDC hdc, hdc1;
+	PAINTSTRUCT ps;
+	HDC hdc;
 	float pp = 2 * 3.14 - asin(0.6);
-	bool grabb = false;
+	int time = 0;
 	switch (message)
 	{
 	case WM_COMMAND:
@@ -659,6 +696,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			zapisuje = false;
 			break;
 		case ID_BUTTON10:
+			id = ID_BUTTON10;
 			if (zapisuje == false) SetTimer(hWnd, TMR_1, 120, NULL);
 			break;
 		case ID_BUTTON11:
@@ -684,7 +722,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 		case ID_BUTTON12:
-
+			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true) {
+				id = ID_BUTTON12;
+				dropping = true;
+				SetTimer(hWnd, TMR_1, 120, NULL);
+			}
 			break;
 		case ID_BUTTON13:
 			InvalidateRect(hWnd, &drawArea1, TRUE);
@@ -710,10 +752,36 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		switch (wParam)
 		{
 		case TMR_1:
-			int t1;
-			t1 = play(&zapis, hWnd);
-			if (t1 == 1) RepaintRobot(hWnd, hdc, ps, &drawArea1);
-			if (t1 == 0) KillTimer(hWnd, TMR_1);
+			if (id == ID_BUTTON12) {
+				int t2;
+				t2 = drop();
+				if (t2 == 1) {
+					InvalidateRect(hWnd, &drawArea1, TRUE);
+					if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
+					RepaintRobot(hWnd, hdc, ps, &drawArea1);
+				}
+				if (t2 == 0) {
+					time = 0;
+					KillTimer(hWnd, TMR_1);
+					InvalidateRect(hWnd, &drawArea1, TRUE);
+					if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
+					dropping = false;
+					RepaintRobot(hWnd, hdc, ps, &drawArea1);
+					if (grabb1 == true)  grabb1 = false;
+					if (grabb2 == true) grabb2 = false;
+					if (grabb3 == true) grabb3 = false;
+					if (grabb4 == true) grabb4 = false;
+				}
+			}
+			if (id == ID_BUTTON10) {
+				int t1;
+				t1 = play(&zapis, hWnd);
+				if (t1 == 1) RepaintRobot(hWnd, hdc, ps, &drawArea1);
+				if (t1 == 0) {
+					RepaintRobot(hWnd, hdc, ps, &drawArea1);
+					KillTimer(hWnd, TMR_1);
+				}
+			}
 			break;
 		}
 
