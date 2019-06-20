@@ -1,44 +1,44 @@
 ﻿  draw2.cpp
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(112,24): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(113,24): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(127,12): warning C4244:  "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(342,57): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(343,53): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(347,57): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(348,53): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(397,12): warning C4244:  "=": konwersja z "int" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(398,36): warning C4244:  "=": konwersja z "int" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(405,12): warning C4244:  "=": konwersja z "int" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(406,36): warning C4244:  "=": konwersja z "int" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(413,12): warning C4244:  "=": konwersja z "int" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(414,36): warning C4244:  "=": konwersja z "int" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(421,12): warning C4244:  "=": konwersja z "int" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(422,36): warning C4244:  "=": konwersja z "int" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(432,11): warning C4244:  "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(455,20): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(460,23): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(462,15): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(477,20): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(482,23): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(484,15): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(500,20): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(501,36): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(508,28): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(511,15): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(512,15): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(520,23): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(523,15): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(524,15): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(542,20): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(543,28): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(550,26): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(551,22): warning C4305:  "=": obcięcie z "double" do "float"
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(553,15): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(554,15): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(562,23): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(563,39): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(565,15): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(124,24): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(125,24): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(139,12): warning C4244:  "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(354,57): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(355,53): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(359,57): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(360,53): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(428,12): warning C4244:  "=": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(429,36): warning C4244:  "=": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(436,12): warning C4244:  "=": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(437,36): warning C4244:  "=": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(444,12): warning C4244:  "=": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(445,36): warning C4244:  "=": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(452,12): warning C4244:  "=": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(453,36): warning C4244:  "=": konwersja z "int" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(485,11): warning C4244:  "inicjowanie": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(508,20): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(513,23): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(515,15): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(531,20): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(536,23): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(538,15): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(555,20): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(556,36): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(563,28): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
 C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(566,15): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(431,11): warning C4101:  "hdc1": lokalna zmienna, do której nie istnieje odwołanie
-C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(430,18): warning C4101:  "pr": lokalna zmienna, do której nie istnieje odwołanie
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(567,15): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(575,23): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(578,15): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(579,15): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(598,20): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(599,28): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(606,26): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(607,22): warning C4305:  "=": obcięcie z "double" do "float"
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(609,15): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(610,15): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(618,23): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(619,39): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(621,15): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(622,15): warning C4244:  "=": konwersja z "double" do "float", możliwa utrata danych
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(484,11): warning C4101:  "hdc1": lokalna zmienna, do której nie istnieje odwołanie
+C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\draw\draw2.cpp(483,18): warning C4101:  "pr": lokalna zmienna, do której nie istnieje odwołanie
   draw.vcxproj -> C:\Users\chabr\Documents\GitHub\project-4\Paweł_Ballo_175547\Debug\draw2.exe
