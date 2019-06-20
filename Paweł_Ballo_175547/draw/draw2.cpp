@@ -45,12 +45,14 @@ int q = 4;
 float m = 0;
 int id;
 float n = 0;
+int tm = 0;
 bool zapisuje = false;
 bool dropping = false;
 bool obj = false;
 bool obj1 = false;
 float roznicaX = 0;
 float roznicaY = 0;
+//float ogr = 600;
 std::queue<bufor> zapis;
 pozycja srodek;
 pozycja koniec;
@@ -71,7 +73,7 @@ HWND hwndButton;
 HWND hwndText;
 
 
-RECT drawArea1 = { 0, 190, 1000, 640 };
+RECT drawArea1 = { 0, 150, 1000, 640 };
 
 ATOM				MyRegisterClass(HINSTANCE hInstance);
 BOOL				InitInstance(HINSTANCE, int);
@@ -330,7 +332,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		hInstance,
 		NULL);
 	hwndButton = CreateWindow(TEXT("button"),
-		TEXT("Creating objects"),
+		TEXT("creating objects"),
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		970, 0,
 		110, 50,
@@ -481,7 +483,7 @@ void grab() {
 
 int drop() {
 	if (grabb1 == true) {
-		obiekt1.y = obiekt1.y + 20;
+		obiekt1.y = obiekt1.y + 30;
 		if (obiekt1.y >= 560) {
 			obiekt1.y = 560;
 			return 0;
@@ -489,7 +491,7 @@ int drop() {
 		else return 1;
 	}
 	if (grabb2 == true) {
-		obiekt2.y = obiekt2.y + 20;
+		obiekt2.y = obiekt2.y + 30;
 		if (obiekt2.y >= 560) {
 			obiekt2.y = 560;
 			return 0;
@@ -497,7 +499,7 @@ int drop() {
 		else return 1;
 	}
 	if (grabb3 == true) {
-		obiekt3.y = obiekt3.y + 20;
+		obiekt3.y = obiekt3.y + 30;
 		if (obiekt3.y >= 560) {
 			obiekt3.y = 560;
 			return 0;
@@ -505,7 +507,7 @@ int drop() {
 		else return 1;
 	}
 	if (grabb4 == true) {
-		obiekt4.y = obiekt4.y + 20;
+		obiekt4.y = obiekt4.y + 30;
 		if (obiekt4.y >= 560) {
 			obiekt4.y = 560;
 			return 0;
@@ -513,6 +515,7 @@ int drop() {
 		else return 1;
 	}
 }
+
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -546,7 +549,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			spr(&koniec, &srodek);
 			koniec.x = srodek.x + cos(koniec.poz) * R;
 			koniec.y = srodek.y + sin(koniec.poz) * R;
-			if (koniec.y >=600) {
+			if (koniec.y > 600) {
 				koniec.poz = 6.28 - r2;
 				spr(&koniec, &srodek);
 				m = m - q + (((koniec.poz - r1) * 180) / 3.14);
@@ -554,7 +557,26 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				koniec.y = 600;
 				koniec.x = srodek.x + cos(koniec.poz) * R;
 			}
-			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true) grab();
+			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true) {
+				grab();
+				//ogranicz();
+				if (obiekt1.y+40 > 600) {
+					obiekt1.y = 560;
+					koniec.y=obiekt1.y-roznicaY;
+				}
+				if (obiekt2.y + 40 > 600) {
+					obiekt2.y = 560;
+					koniec.y = obiekt2.y - roznicaY;
+				}
+				if (obiekt3.y + 40 > 600) {
+					obiekt3.y = 560;
+					koniec.y = obiekt3.y - roznicaY;
+				}
+				if (obiekt4.y + 40 > 600) {
+					obiekt4.y = 560;
+					koniec.y = obiekt4.y - roznicaY;
+				}
+			}
 			if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
 			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			break;
@@ -569,7 +591,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			koniec.x = srodek.x + cos(koniec.poz) * R;
 			koniec.y = srodek.y + sin(koniec.poz) * R;
 			spr(&koniec, &srodek);
-			if (koniec.y >=600) {
+			if (koniec.y >600) {
 				koniec.poz = 6.28 - r4;
 				spr(&koniec, &srodek);
 				m = m + q - (((koniec.poz - r3) * 180) / 3.14);
@@ -577,7 +599,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				koniec.y = 600;
 				koniec.x = srodek.x + cos(koniec.poz) * R;
 			} 
-			if (grabb1 == true || grabb2==true || grabb3 == true || grabb4 == true) grab();
+			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true) {
+				grab();
+				if (obiekt1.y + 40 > 600) {
+					obiekt1.y = 560;
+					koniec.y = obiekt1.y - roznicaY;
+				}
+				if (obiekt2.y + 40 > 600) {
+					obiekt2.y = 560;
+					koniec.y = obiekt2.y - roznicaY;
+				}
+				if (obiekt3.y + 40 > 600) {
+					obiekt3.y = 560;
+					koniec.y = obiekt3.y - roznicaY;
+				}
+				if (obiekt4.y + 40 > 600) {
+					obiekt4.y = 560;
+					koniec.y = obiekt4.y - roznicaY;
+				}
+			}
 			if (zapisuje == true) saving(&zapis, &srodek, &koniec,&obiekt1,&obiekt2,&obiekt3,&obiekt4);
 			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			break;
@@ -596,6 +636,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			srodek.y = 600 + sin(srodek.poz) * R;
 			koniec.x = srodek.x + cos(koniec.poz) * R;
 			koniec.y = srodek.y + sin(koniec.poz) * R;
+		//	ogranicz();
 			if (srodek.y >= 600 && ((k2 < 6.28 && k2>4.71) || k2 == 0)) {
 				koniec.poz = k1 + 6.28 - k2;
 				srodek.poz = 0;
@@ -620,7 +661,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				koniec.y = 600;
 				srodek.y = 600 + sin(srodek.poz) * R;
 			}
-			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true) grab();
+			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true) {
+				grab();
+				if (obiekt1.y + 40 > 600) {
+					obiekt1.y = 560;
+					koniec.y = obiekt1.y - roznicaY;
+				}
+				if (obiekt2.y + 40 > 600) {
+					obiekt2.y = 560;
+					koniec.y = obiekt2.y - roznicaY;
+				}
+				if (obiekt3.y + 40 > 600) {
+					obiekt3.y = 560;
+					koniec.y = obiekt3.y - roznicaY;
+				}
+				if (obiekt4.y + 40 > 600) {
+					obiekt4.y = 560;
+					koniec.y = obiekt4.y - roznicaY;
+				}
+			}
 			if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
 			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			break;
@@ -639,7 +698,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			srodek.y = 600 + sin(srodek.poz) * R;
 			koniec.x = srodek.x + cos(koniec.poz) * R;
 			koniec.y = srodek.y + sin(koniec.poz) * R;
-			if (srodek.y >= 600 && ((p1 > 3.14 && p1 < 4.71)) || p1 == 3.14) {
+		//	ogranicz();
+			if (srodek.y >=600 && ((p1 > 3.14 && p1 < 4.71)) || p1 == 3.14) {
 				koniec.poz = p2 - p1 + 3.14;
 				srodek.poz = 3.14;
 				spr(&koniec, &srodek);
@@ -700,6 +760,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			if (zapisuje == false) SetTimer(hWnd, TMR_1, 120, NULL);
 			break;
 		case ID_BUTTON11:
+			 
 			if (obj1 == true && (pow((koniec.x - obiekt1.x - 20), 2) + pow((koniec.y - obiekt1.y - 20), 2) <= 400)) {
 				grabb1 = true;
 				roznicaX = obiekt1.x - koniec.x;
@@ -725,7 +786,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true) {
 				id = ID_BUTTON12;
 				dropping = true;
-				SetTimer(hWnd, TMR_1, 120, NULL);
+				SetTimer(hWnd, TMR_1, 115, NULL);
 			}
 			break;
 		case ID_BUTTON13:
