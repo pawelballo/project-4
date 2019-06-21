@@ -27,7 +27,6 @@ struct pozycja {
 struct object {
 	float x;
 	float y;
-	float weight;
 };
 
 struct bufor {
@@ -52,7 +51,6 @@ bool obj = false;
 bool obj1 = false;
 float roznicaX = 0;
 float roznicaY = 0;
-//float ogr = 600;
 std::queue<bufor> zapis;
 pozycja srodek;
 pozycja koniec;
@@ -105,18 +103,18 @@ void PaintRobot(HDC hdc) {
 		SolidBrush brush1(Color(255, 0, 100, 0));
 		if (obj == true)creatobject(&obiekt1, i4);
 		i4 = 1;
-		graphics.FillEllipse(&brush1, (int)obiekt1.x, (int)obiekt1.y, 40, 40);
+		graphics.FillRectangle(&brush1, (int)obiekt1.x, (int)obiekt1.y, 30,30);
 		SolidBrush brush2(Color(255, 255, 215, 0));
 		if (obj == true)creatobject(&obiekt2, i4);
-		i4 = 2;
-		graphics.FillEllipse(&brush2, (int)obiekt2.x, (int)obiekt2.y, 40, 40);
+		i4 = 2;           
+		graphics.FillRectangle(&brush2, (int)obiekt2.x, (int)obiekt2.y, 30,30);
 		SolidBrush brush3(Color(255, 255, 69, 0));
 		if (obj == true)creatobject(&obiekt3, i4);
 		i4 = 3;
-		graphics.FillEllipse(&brush3, (int)obiekt3.x, (int)obiekt3.y, 40, 40);
+		graphics.FillRectangle(&brush3, (int)obiekt3.x, (int)obiekt3.y, 30,30);
 		SolidBrush brush4(Color(255, 106, 90, 205));
 		if (obj == true)creatobject(&obiekt4, i4);
-		graphics.FillEllipse(&brush4, (int)obiekt4.x, (int)obiekt4.y, 40, 40);
+		graphics.FillRectangle(&brush4, (int)obiekt4.x, (int)obiekt4.y, 30,30);
 	}
 }
 
@@ -427,34 +425,30 @@ int play(std::queue<bufor>* save, HWND hWnd) {
 void creatobject(object* b, int i) {
 	int wylos = 0;
 	if (i == 0) {
-		wylos = (std::rand() % 320) + 110;
-		(*b).y = 560;
+		wylos = (std::rand() % 360) + 110;
+		(*b).y = 570;
 		(*b).x = wylos;
-		(*b).weight = (std::rand() % 20) + 1;
 	}
 	if (i == 1) {
 		do {
-			wylos = (std::rand() % 320) + 110;
-		} while (!((obiekt1.x > wylos + 40 && obiekt1.x > wylos) || (obiekt1.x + 40 < wylos && obiekt1.x + 40 < wylos + 40)));
-		(*b).y = 560;
+			wylos = (std::rand() % 360) + 110;
+		} while (!((obiekt1.x > wylos + 30 && obiekt1.x > wylos) || (obiekt1.x + 30 < wylos && obiekt1.x + 30 < wylos + 30)));
+		(*b).y = 570;
 		(*b).x = wylos;
-		(*b).weight = (std::rand() % 20) + 1;
 	}
 	if (i == 2) {
 		do {
-			wylos = (std::rand() % 320) + 110;
-		} while (!(((obiekt1.x > wylos + 40 && obiekt1.x > wylos) || (obiekt1.x + 40 < wylos && obiekt1.x + 40 < wylos + 40)) && ((obiekt2.x > wylos + 40 && obiekt2.x > wylos) || (obiekt2.x + 40 < wylos && obiekt2.x + 40 < wylos + 40))));
-		(*b).y = 560;
+			wylos = (std::rand() % 360) + 110;
+		} while (!(((obiekt1.x > wylos + 30 && obiekt1.x > wylos) || (obiekt1.x + 30 < wylos && obiekt1.x + 30 < wylos + 30)) && ((obiekt2.x > wylos + 30 && obiekt2.x > wylos) || (obiekt2.x + 30 < wylos && obiekt2.x + 30 < wylos + 30))));
+		(*b).y = 570;
 		(*b).x = wylos;
-		(*b).weight = (std::rand() % 20) + 1;
 	}
 	if (i == 3) {
 		do {
-			wylos = (std::rand() % 320) + 110;
+			wylos = (std::rand() % 360) + 110;
 		} while (!(((obiekt1.x > wylos + 40 && obiekt1.x > wylos) || (obiekt1.x + 40 < wylos && obiekt1.x + 40 < wylos + 40)) && ((obiekt2.x > wylos + 40 && obiekt2.x > wylos) || (obiekt2.x + 40 < wylos && obiekt2.x + 40 < wylos + 40)) && ((obiekt3.x > wylos + 40 && obiekt3.x > wylos) || (obiekt3.x + 40 < wylos && obiekt3.x + 40 < wylos + 40))));
-		(*b).y = 560;
+		(*b).y = 570;
 		(*b).x = wylos;
-		(*b).weight = (std::rand() % 20) + 1;
 	}
 	grabb1 = false;
 	grabb2 = false;
@@ -484,32 +478,52 @@ void grab() {
 int drop() {
 	if (grabb1 == true) {
 		obiekt1.y = obiekt1.y + 30;
-		if (obiekt1.y >= 560) {
-			obiekt1.y = 560;
+		if (obiekt1.y>=obiekt2.y-30 || obiekt1.y >= obiekt3.y-30 || obiekt1.y>= obiekt4.y-30) {
+			if ((obiekt1.x > obiekt2.x - 30 && obiekt1.x<=obiekt2.x)|| (obiekt1.x>=obiekt2.x && obiekt1.x < obiekt2.x + 30)) { obiekt1.y = obiekt2.y - 30; return 0; }
+			if ((obiekt1.x > obiekt3.x - 30 && obiekt1.x <= obiekt3.x) || (obiekt1.x >= obiekt3.x && obiekt1.x < obiekt3.x + 30)) { obiekt1.y = obiekt3.y - 30; return 0; }
+			if ((obiekt1.x > obiekt4.x - 30 && obiekt1.x <= obiekt4.x) || (obiekt1.x >= obiekt4.x && obiekt1.x < obiekt4.x + 30)) { obiekt1.y = obiekt4.y - 30; return 0; }
+		}
+		if (obiekt1.y >= 570) {
+			obiekt1.y = 570;
 			return 0;
 		}
 		else return 1;
 	}
 	if (grabb2 == true) {
 		obiekt2.y = obiekt2.y + 30;
-		if (obiekt2.y >= 560) {
-			obiekt2.y = 560;
+		if (obiekt2.y>= obiekt1.y-30 || obiekt2.y>= obiekt3.y-30 || obiekt2.y>= obiekt4.y-30) {
+			if ((obiekt2.x > obiekt1.x - 30 && obiekt2.x <= obiekt1.x) || (obiekt2.x >= obiekt1.x && obiekt2.x < obiekt1.x + 30)) { obiekt2.y = obiekt1.y - 30; return 0; }
+			if ((obiekt2.x > obiekt3.x - 30 && obiekt2.x <= obiekt3.x) || (obiekt2.x >= obiekt3.x && obiekt2.x < obiekt3.x + 30)) { obiekt2.y = obiekt3.y - 30; return 0; }
+			if ((obiekt2.x > obiekt4.x - 30 && obiekt2.x <= obiekt4.x) || (obiekt2.x >= obiekt4.x && obiekt2.x < obiekt4.x + 30)) { obiekt2.y = obiekt4.y - 30; return 0; }
+		}
+		if (obiekt2.y >= 570) {
+			obiekt2.y = 570;
 			return 0;
 		}
 		else return 1;
 	}
 	if (grabb3 == true) {
 		obiekt3.y = obiekt3.y + 30;
-		if (obiekt3.y >= 560) {
-			obiekt3.y = 560;
+		if (obiekt3.y>= obiekt2.y-30 || obiekt3.y>= obiekt1.y-30 || obiekt3.y >= obiekt4.y-30) {
+			if ((obiekt3.x > obiekt1.x - 30 && obiekt3.x <= obiekt1.x) || (obiekt3.x >= obiekt1.x && obiekt3.x < obiekt1.x + 30)) { obiekt3.y = obiekt2.y - 30; return 0; }
+			if ((obiekt3.x > obiekt2.x - 30 && obiekt3.x <= obiekt2.x) || (obiekt3.x >= obiekt2.x && obiekt3.x < obiekt2.x + 30)) { obiekt3.y = obiekt1.y - 30; return 0; }
+			if ((obiekt3.x > obiekt4.x - 30 && obiekt3.x <= obiekt4.x) || (obiekt3.x >= obiekt4.x && obiekt3.x < obiekt4.x + 30)) { obiekt3.y = obiekt4.y - 30; return 0; }
+		}
+		if (obiekt3.y >= 570) {
+			obiekt3.y = 570;
 			return 0;
 		}
 		else return 1;
 	}
 	if (grabb4 == true) {
 		obiekt4.y = obiekt4.y + 30;
-		if (obiekt4.y >= 560) {
-			obiekt4.y = 560;
+		if (obiekt4.y>= obiekt2.y-30 || obiekt4.y >= obiekt3.y-30 || obiekt4.y>= obiekt1.y-30) {
+			if ((obiekt4.x > obiekt1.x - 30 && obiekt4.x <= obiekt1.x) || (obiekt4.x >= obiekt1.x && obiekt4.x < obiekt1.x + 30)) { obiekt4.y = obiekt2.y - 30; return 0; }
+			if ((obiekt4.x > obiekt2.x - 30 && obiekt4.x <= obiekt2.x) || (obiekt4.x >= obiekt2.x && obiekt4.x < obiekt2.x + 30)) { obiekt4.y = obiekt3.y - 30; return 0; }
+			if ((obiekt4.x > obiekt3.x - 30 && obiekt4.x <= obiekt3.x) || (obiekt4.x >= obiekt3.x && obiekt4.x < obiekt3.x + 30)) { obiekt4.y = obiekt1.y - 30; return 0; }
+		}
+		if (obiekt4.y >= 570) {
+			obiekt4.y = 570;
 			return 0;
 		}
 		else return 1;
@@ -559,21 +573,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			}
 			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true) {
 				grab();
-				//ogranicz();
-				if (obiekt1.y+40 > 600) {
-					obiekt1.y = 560;
+				if (obiekt1.y+30 > 600) {
+					obiekt1.y = 570;
 					koniec.y=obiekt1.y-roznicaY;
 				}
-				if (obiekt2.y + 40 > 600) {
-					obiekt2.y = 560;
+				if (obiekt2.y + 30 > 600) {
+					obiekt2.y = 570;
 					koniec.y = obiekt2.y - roznicaY;
 				}
-				if (obiekt3.y + 40 > 600) {
-					obiekt3.y = 560;
+				if (obiekt3.y + 30 > 600) {
+					obiekt3.y = 570;
 					koniec.y = obiekt3.y - roznicaY;
 				}
-				if (obiekt4.y + 40 > 600) {
-					obiekt4.y = 560;
+				if (obiekt4.y + 30 > 600) {
+					obiekt4.y = 570;
 					koniec.y = obiekt4.y - roznicaY;
 				}
 			}
@@ -601,20 +614,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			} 
 			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true) {
 				grab();
-				if (obiekt1.y + 40 > 600) {
-					obiekt1.y = 560;
+				if (obiekt1.y + 30 > 600) {
+					obiekt1.y = 570;
 					koniec.y = obiekt1.y - roznicaY;
 				}
-				if (obiekt2.y + 40 > 600) {
-					obiekt2.y = 560;
+				if (obiekt2.y + 30 > 600) {
+					obiekt2.y = 570;
 					koniec.y = obiekt2.y - roznicaY;
 				}
-				if (obiekt3.y + 40 > 600) {
-					obiekt3.y = 560;
+				if (obiekt3.y + 30 > 600) {
+					obiekt3.y = 570;
 					koniec.y = obiekt3.y - roznicaY;
 				}
-				if (obiekt4.y + 40 > 600) {
-					obiekt4.y = 560;
+				if (obiekt4.y + 30 > 600) {
+					obiekt4.y = 570;
 					koniec.y = obiekt4.y - roznicaY;
 				}
 			}
@@ -636,7 +649,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			srodek.y = 600 + sin(srodek.poz) * R;
 			koniec.x = srodek.x + cos(koniec.poz) * R;
 			koniec.y = srodek.y + sin(koniec.poz) * R;
-		//	ogranicz();
 			if (srodek.y >= 600 && ((k2 < 6.28 && k2>4.71) || k2 == 0)) {
 				koniec.poz = k1 + 6.28 - k2;
 				srodek.poz = 0;
@@ -663,20 +675,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			}
 			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true) {
 				grab();
-				if (obiekt1.y + 40 > 600) {
-					obiekt1.y = 560;
+				if (obiekt1.y + 30 > 600) {
+					obiekt1.y = 570;
 					koniec.y = obiekt1.y - roznicaY;
 				}
-				if (obiekt2.y + 40 > 600) {
-					obiekt2.y = 560;
+				if (obiekt2.y + 30 > 600) {
+					obiekt2.y = 570;
 					koniec.y = obiekt2.y - roznicaY;
 				}
-				if (obiekt3.y + 40 > 600) {
-					obiekt3.y = 560;
+				if (obiekt3.y + 30 > 600) {
+					obiekt3.y = 570;
 					koniec.y = obiekt3.y - roznicaY;
 				}
-				if (obiekt4.y + 40 > 600) {
-					obiekt4.y = 560;
+				if (obiekt4.y + 30 > 600) {
+					obiekt4.y = 570;
 					koniec.y = obiekt4.y - roznicaY;
 				}
 			}
@@ -761,22 +773,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		case ID_BUTTON11:
 			 
-			if (obj1 == true && (pow((koniec.x - obiekt1.x - 20), 2) + pow((koniec.y - obiekt1.y - 20), 2) <= 400)) {
+			if (obj1 == true && obiekt1.x<=koniec.x && koniec.x<=obiekt1.x+30 && obiekt1.y <= koniec.y && koniec.y <= obiekt1.y + 30) {
 				grabb1 = true;
 				roznicaX = obiekt1.x - koniec.x;
 				roznicaY = obiekt1.y - koniec.y;
 			}
-			if (obj1 == true && (pow((koniec.x - obiekt2.x - 20), 2) + pow((koniec.y - obiekt2.y - 20), 2) <= 400)) {
+			if (obj1 == true && obiekt2.x <= koniec.x && koniec.x <= obiekt2.x + 30 && obiekt2.y <= koniec.y && koniec.y <= obiekt2.y + 30) {
 				grabb2 = true;
 				roznicaX = obiekt2.x - koniec.x;
 				roznicaY = obiekt2.y - koniec.y;
 			}
-			if (obj1 == true && (pow((koniec.x - obiekt3.x - 20), 2) + pow((koniec.y - obiekt3.y - 20), 2) <= 400)) {
+			if (obj1 == true && obiekt3.x <= koniec.x && koniec.x <= obiekt3.x + 30 && obiekt3.y <= koniec.y && koniec.y <= obiekt3.y + 30) {
 				grabb3 = true;
 				roznicaX = obiekt3.x - koniec.x;
 				roznicaY = obiekt3.y - koniec.y;
 			}
-			if (obj1 == true && (pow((koniec.x - obiekt4.x - 20), 2) + pow((koniec.y - obiekt4.y - 20), 2) <= 400)) {
+			if (obj1 == true && obiekt4.x <= koniec.x && koniec.x <= obiekt4.x + 30 && obiekt4.y <= koniec.y && koniec.y <= obiekt4.y + 30) {
 				grabb4 = true;
 				roznicaX = obiekt4.x - koniec.x;
 				roznicaY = obiekt4.y - koniec.y;
