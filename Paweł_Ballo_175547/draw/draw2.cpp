@@ -66,12 +66,11 @@ HINSTANCE hInst;
 
 TCHAR szTitle[MAX_LOADSTRING];
 TCHAR szWindowClass[MAX_LOADSTRING];
-
 HWND hwndButton;
 HWND hwndText;
 
 
-RECT drawArea1 = { 0, 150, 1000, 640 };
+RECT drawArea1 = { 0, 150, 1000, 1000 };
 
 ATOM				MyRegisterClass(HINSTANCE hInstance);
 BOOL				InitInstance(HINSTANCE, int);
@@ -128,12 +127,20 @@ void StartPaintRobot(HDC hdc) {
 	PaintRobot(hdc);
 }
 
-void RepaintRobot(HWND hWnd, HDC& hdc,HDC& mem, PAINTSTRUCT& ps, RECT* drawArea)
+void RepaintRobot(HWND hWnd, HDC& hdc, PAINTSTRUCT& ps, RECT* drawArea)
 {
+	HBITMAP hBmpBk;
+	HDC mem;
+	mem = CreateCompatibleDC(GetDC(NULL));
+	hBmpBk = CreateCompatibleBitmap(GetDC(NULL),1000, 1000);
+	SelectObject(mem, hBmpBk);
 	hdc = BeginPaint(hWnd, &ps);
-	PaintRobot(hdc);
-	//BitBlt(hdc,0,150,1000,640, mem, 0, 0, SRCCOPY);
+	FillRect(mem, &drawArea1, (HBRUSH)GetStockObject(WHITE_BRUSH));
+	SetBkMode(mem, TRANSPARENT);
+	PaintRobot(mem);
+	BitBlt(hdc, 0, 0, 1000, 1000, mem, 0, 0, SRCCOPY);
 	EndPaint(hWnd, &ps);
+	DeleteObject(hBmpBk);
 }
 
 
@@ -426,27 +433,27 @@ int play(std::queue<bufor>* save, HWND hWnd) {
 void creatobject(object* b, int i) {
 	int wylos = 0;
 	if (i == 0) {
-		wylos = (std::rand() % 360) + 110;
+		wylos = (std::rand() % 700) + 110;
 		(*b).y = 570;
 		(*b).x = wylos;
 	}
 	if (i == 1) {
 		do {
-			wylos = (std::rand() % 360) + 110;
+			wylos = (std::rand() % 700) + 110;
 		} while (!((obiekt1.x > wylos + 30 && obiekt1.x > wylos) || (obiekt1.x + 30 < wylos && obiekt1.x + 30 < wylos + 30)));
 		(*b).y = 570;
 		(*b).x = wylos;
 	}
 	if (i == 2) {
 		do {
-			wylos = (std::rand() % 360) + 110;
+			wylos = (std::rand() % 700) + 110;
 		} while (!(((obiekt1.x > wylos + 30 && obiekt1.x > wylos) || (obiekt1.x + 30 < wylos && obiekt1.x + 30 < wylos + 30)) && ((obiekt2.x > wylos + 30 && obiekt2.x > wylos) || (obiekt2.x + 30 < wylos && obiekt2.x + 30 < wylos + 30))));
 		(*b).y = 570;
 		(*b).x = wylos;
 	}
 	if (i == 3) {
 		do {
-			wylos = (std::rand() % 360) + 110;
+			wylos = (std::rand() % 700) + 110;
 		} while (!(((obiekt1.x > wylos + 40 && obiekt1.x > wylos) || (obiekt1.x + 40 < wylos && obiekt1.x + 40 < wylos + 40)) && ((obiekt2.x > wylos + 40 && obiekt2.x > wylos) || (obiekt2.x + 40 < wylos && obiekt2.x + 40 < wylos + 40)) && ((obiekt3.x > wylos + 40 && obiekt3.x > wylos) || (obiekt3.x + 40 < wylos && obiekt3.x + 40 < wylos + 40))));
 		(*b).y = 570;
 		(*b).x = wylos;
@@ -478,7 +485,7 @@ void grab() {
 
 int drop() {
 	if (grabb1 == true) {
-		obiekt1.y = obiekt1.y + 20;
+		obiekt1.y = obiekt1.y + 10;
 		if (obiekt1.y >= obiekt2.y - 30 && ((obiekt1.x > obiekt2.x - 30 && obiekt1.x<=obiekt2.x)|| (obiekt1.x>=obiekt2.x && obiekt1.x < obiekt2.x + 30))) { obiekt1.y = obiekt2.y - 30; return 0; }
 		if (obiekt1.y >= obiekt3.y - 30 &&((obiekt1.x > obiekt3.x - 30 && obiekt1.x <= obiekt3.x) || (obiekt1.x >= obiekt3.x && obiekt1.x < obiekt3.x + 30))) { obiekt1.y = obiekt3.y - 30; return 0; }
 		if (obiekt1.y >= obiekt4.y - 30 &&((obiekt1.x > obiekt4.x - 30 && obiekt1.x <= obiekt4.x) || (obiekt1.x >= obiekt4.x && obiekt1.x < obiekt4.x + 30))) { obiekt1.y = obiekt4.y - 30; return 0; }
@@ -489,7 +496,7 @@ int drop() {
 		else return 1;
 	}
 	if (grabb2 == true) {
-		obiekt2.y = obiekt2.y + 20;
+		obiekt2.y = obiekt2.y + 10;
 		if (obiekt2.y >= obiekt1.y - 30 &&((obiekt2.x > obiekt1.x - 30 && obiekt2.x <= obiekt1.x) || (obiekt2.x >= obiekt1.x && obiekt2.x < obiekt1.x + 30))) { obiekt2.y = obiekt1.y - 30; return 0; }
 		if (obiekt2.y >= obiekt3.y - 30 &&((obiekt2.x > obiekt3.x - 30 && obiekt2.x <= obiekt3.x) || (obiekt2.x >= obiekt3.x && obiekt2.x < obiekt3.x + 30))){ obiekt2.y = obiekt3.y - 30; return 0; }
 		if (obiekt2.y >= obiekt4.y - 30 &&((obiekt2.x > obiekt4.x - 30 && obiekt2.x <= obiekt4.x) || (obiekt2.x >= obiekt4.x && obiekt2.x < obiekt4.x + 30))){ obiekt2.y = obiekt4.y - 30; return 0; }
@@ -500,9 +507,9 @@ int drop() {
 		else return 1;
 	}
 	if (grabb3 == true) {
-		obiekt3.y = obiekt3.y + 20;
-		if (obiekt3.y >= obiekt1.y - 30 &&((obiekt3.x > obiekt1.x - 30 && obiekt3.x <= obiekt1.x) || (obiekt3.x >= obiekt1.x && obiekt3.x < obiekt1.x + 30))) { obiekt3.y = obiekt2.y - 30; return 0; }
-		if (obiekt3.y >= obiekt2.y - 30 &&((obiekt3.x > obiekt2.x - 30 && obiekt3.x <= obiekt2.x) || (obiekt3.x >= obiekt2.x && obiekt3.x < obiekt2.x + 30))) { obiekt3.y = obiekt1.y - 30; return 0; }
+		obiekt3.y = obiekt3.y + 10;
+		if (obiekt3.y >= obiekt1.y - 30 &&((obiekt3.x > obiekt1.x - 30 && obiekt3.x <= obiekt1.x) || (obiekt3.x >= obiekt1.x && obiekt3.x < obiekt1.x + 30))) { obiekt3.y = obiekt1.y - 30; return 0; }
+		if (obiekt3.y >= obiekt2.y - 30 &&((obiekt3.x > obiekt2.x - 30 && obiekt3.x <= obiekt2.x) || (obiekt3.x >= obiekt2.x && obiekt3.x < obiekt2.x + 30))) { obiekt3.y = obiekt2.y - 30; return 0; }
 		if (obiekt3.y >= obiekt4.y - 30 &&((obiekt3.x > obiekt4.x - 30 && obiekt3.x <= obiekt4.x) || (obiekt3.x >= obiekt4.x && obiekt3.x < obiekt4.x + 30))) { obiekt3.y = obiekt4.y - 30; return 0; }
 		if (obiekt3.y >= 570) {
 			obiekt3.y = 570;
@@ -511,10 +518,10 @@ int drop() {
 		else return 1;
 	}
 	if (grabb4 == true) {
-		obiekt4.y = obiekt4.y + 20;
-		if (obiekt4.y >= obiekt1.y - 30 &&((obiekt4.x > obiekt1.x - 30 && obiekt4.x <= obiekt1.x) || (obiekt4.x >= obiekt1.x && obiekt4.x < obiekt1.x + 30))) { obiekt4.y = obiekt2.y - 30; return 0; }
-		if (obiekt4.y >= obiekt2.y - 30 &&((obiekt4.x > obiekt2.x - 30 && obiekt4.x <= obiekt2.x) || (obiekt4.x >= obiekt2.x && obiekt4.x < obiekt2.x + 30))) { obiekt4.y = obiekt3.y - 30; return 0; }
-		if (obiekt4.y >= obiekt3.y - 30 &&((obiekt4.x > obiekt3.x - 30 && obiekt4.x <= obiekt3.x) || (obiekt4.x >= obiekt3.x && obiekt4.x < obiekt3.x + 30))) { obiekt4.y = obiekt1.y - 30; return 0; }
+		obiekt4.y = obiekt4.y + 10;
+		if (obiekt4.y >= obiekt1.y - 30 &&((obiekt4.x > obiekt1.x - 30 && obiekt4.x <= obiekt1.x) || (obiekt4.x >= obiekt1.x && obiekt4.x < obiekt1.x + 30))) { obiekt4.y = obiekt1.y - 30; return 0; }
+		if (obiekt4.y >= obiekt2.y - 30 &&((obiekt4.x > obiekt2.x - 30 && obiekt4.x <= obiekt2.x) || (obiekt4.x >= obiekt2.x && obiekt4.x < obiekt2.x + 30))) { obiekt4.y = obiekt2.y - 30; return 0; }
+		if (obiekt4.y >= obiekt3.y - 30 &&((obiekt4.x > obiekt3.x - 30 && obiekt4.x <= obiekt3.x) || (obiekt4.x >= obiekt3.x && obiekt4.x < obiekt3.x + 30))) { obiekt4.y = obiekt3.y - 30; return 0; }
 		if (obiekt4.y >= 570) {
 			obiekt4.y = 570;
 			return 0;
@@ -529,9 +536,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	int wmId, wmEvent;
 	PAINTSTRUCT ps;
 	HDC hdc;
-	HBITMAP hBmpBk;
-	HDC mem;
-	RECT wndRect;
 	float pp = 2 * 3.14 - asin(0.6);
 	int time = 0;
 	switch (message)
@@ -587,7 +591,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 			}
 			if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
-			RepaintRobot(hWnd, hdc,mem,ps, &drawArea1);
+			RepaintRobot(hWnd, hdc,ps,&drawArea1);
 			break;
 		case ID_BUTTON2:
 			InvalidateRect(hWnd, &drawArea1, TRUE);
@@ -628,7 +632,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 			}
 			if (zapisuje == true) saving(&zapis, &srodek, &koniec,&obiekt1,&obiekt2,&obiekt3,&obiekt4);
-			RepaintRobot(hWnd, hdc, mem, ps, &drawArea1);
+			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			break;
 		case ID_BUTTON3:
 			InvalidateRect(hWnd, &drawArea1, TRUE);
@@ -689,7 +693,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 			}
 			if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
-			RepaintRobot(hWnd, hdc, mem, ps, &drawArea1);
+			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			break;
 		case ID_BUTTON4:
 			InvalidateRect(hWnd, &drawArea1, TRUE);
@@ -732,7 +736,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			}
 			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true) grab();
 			if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
-			RepaintRobot(hWnd, hdc, mem, ps, &drawArea1);
+			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			break;
 		case ID_BUTTON6:
 			q -= 2;
@@ -753,7 +757,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			srodek.poz = pp;
 			koniec.poz = pp;
 			if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
-			RepaintRobot(hWnd, hdc, mem, ps, &drawArea1);
+			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			break;
 		case ID_BUTTON8:
 			zapisuje = true;
@@ -793,24 +797,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true) {
 				id = ID_BUTTON12;
 				dropping = true;
-				SetTimer(hWnd, TMR_1, 115, NULL);
+				SetTimer(hWnd, TMR_1, 35, NULL);
 			}
 			break;
 		case ID_BUTTON13:
 			InvalidateRect(hWnd, &drawArea1, TRUE);
 			obj = true;
 			obj1 = true;
-			RepaintRobot(hWnd, hdc, mem, ps, &drawArea1);
+			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			obj = false;
 			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}
-		break;
-	case WM_CREATE:
-		mem = CreateCompatibleDC(GetDC(NULL));
-		hBmpBk = CreateCompatibleBitmap(GetDC(NULL), 1000, 640);
-		SelectObject(mem, hBmpBk);
 		break;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
@@ -831,7 +830,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				if (t2 == 1) {
 					InvalidateRect(hWnd, &drawArea1, TRUE);
 					if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
-					RepaintRobot(hWnd, hdc, mem, ps, &drawArea1);
+					RepaintRobot(hWnd, hdc, ps, &drawArea1);
 				}
 				if (t2 == 0) {
 					time = 0;
@@ -839,7 +838,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					InvalidateRect(hWnd, &drawArea1, TRUE);
 					if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
 					dropping = false;
-					RepaintRobot(hWnd, hdc, mem, ps, &drawArea1);
+					RepaintRobot(hWnd, hdc, ps, &drawArea1);
 					if (grabb1 == true)  grabb1 = false;
 					if (grabb2 == true) grabb2 = false;
 					if (grabb3 == true) grabb3 = false;
@@ -849,9 +848,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			if (id == ID_BUTTON10) {
 				int t1;
 				t1 = play(&zapis, hWnd);
-				if (t1 == 1) RepaintRobot(hWnd, hdc, mem, ps, &drawArea1);
+				if (t1 == 1)RepaintRobot(hWnd, hdc, ps, &drawArea1);
 				if (t1 == 0) {
-					RepaintRobot(hWnd, hdc, mem, ps, &drawArea1);
+					RepaintRobot(hWnd, hdc, ps, &drawArea1);
 					KillTimer(hWnd, TMR_1);
 				}
 			}
