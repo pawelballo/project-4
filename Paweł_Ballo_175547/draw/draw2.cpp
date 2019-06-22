@@ -128,10 +128,11 @@ void StartPaintRobot(HDC hdc) {
 	PaintRobot(hdc);
 }
 
-void RepaintRobot(HWND hWnd, HDC& hdc, PAINTSTRUCT& ps, RECT* drawArea)
+void RepaintRobot(HWND hWnd, HDC& hdc,HDC& mem, PAINTSTRUCT& ps, RECT* drawArea)
 {
 	hdc = BeginPaint(hWnd, &ps);
 	PaintRobot(hdc);
+	//BitBlt(hdc,0,150,1000,640, mem, 0, 0, SRCCOPY);
 	EndPaint(hWnd, &ps);
 }
 
@@ -477,12 +478,10 @@ void grab() {
 
 int drop() {
 	if (grabb1 == true) {
-		obiekt1.y = obiekt1.y + 30;
-		if (obiekt1.y>=obiekt2.y-30 || obiekt1.y >= obiekt3.y-30 || obiekt1.y>= obiekt4.y-30) {
-			if ((obiekt1.x > obiekt2.x - 30 && obiekt1.x<=obiekt2.x)|| (obiekt1.x>=obiekt2.x && obiekt1.x < obiekt2.x + 30)) { obiekt1.y = obiekt2.y - 30; return 0; }
-			if ((obiekt1.x > obiekt3.x - 30 && obiekt1.x <= obiekt3.x) || (obiekt1.x >= obiekt3.x && obiekt1.x < obiekt3.x + 30)) { obiekt1.y = obiekt3.y - 30; return 0; }
-			if ((obiekt1.x > obiekt4.x - 30 && obiekt1.x <= obiekt4.x) || (obiekt1.x >= obiekt4.x && obiekt1.x < obiekt4.x + 30)) { obiekt1.y = obiekt4.y - 30; return 0; }
-		}
+		obiekt1.y = obiekt1.y + 20;
+		if (obiekt1.y >= obiekt2.y - 30 && ((obiekt1.x > obiekt2.x - 30 && obiekt1.x<=obiekt2.x)|| (obiekt1.x>=obiekt2.x && obiekt1.x < obiekt2.x + 30))) { obiekt1.y = obiekt2.y - 30; return 0; }
+		if (obiekt1.y >= obiekt3.y - 30 &&((obiekt1.x > obiekt3.x - 30 && obiekt1.x <= obiekt3.x) || (obiekt1.x >= obiekt3.x && obiekt1.x < obiekt3.x + 30))) { obiekt1.y = obiekt3.y - 30; return 0; }
+		if (obiekt1.y >= obiekt4.y - 30 &&((obiekt1.x > obiekt4.x - 30 && obiekt1.x <= obiekt4.x) || (obiekt1.x >= obiekt4.x && obiekt1.x < obiekt4.x + 30))) { obiekt1.y = obiekt4.y - 30; return 0; }
 		if (obiekt1.y >= 570) {
 			obiekt1.y = 570;
 			return 0;
@@ -490,12 +489,10 @@ int drop() {
 		else return 1;
 	}
 	if (grabb2 == true) {
-		obiekt2.y = obiekt2.y + 30;
-		if (obiekt2.y>= obiekt1.y-30 || obiekt2.y>= obiekt3.y-30 || obiekt2.y>= obiekt4.y-30) {
-			if ((obiekt2.x > obiekt1.x - 30 && obiekt2.x <= obiekt1.x) || (obiekt2.x >= obiekt1.x && obiekt2.x < obiekt1.x + 30)) { obiekt2.y = obiekt1.y - 30; return 0; }
-			if ((obiekt2.x > obiekt3.x - 30 && obiekt2.x <= obiekt3.x) || (obiekt2.x >= obiekt3.x && obiekt2.x < obiekt3.x + 30)) { obiekt2.y = obiekt3.y - 30; return 0; }
-			if ((obiekt2.x > obiekt4.x - 30 && obiekt2.x <= obiekt4.x) || (obiekt2.x >= obiekt4.x && obiekt2.x < obiekt4.x + 30)) { obiekt2.y = obiekt4.y - 30; return 0; }
-		}
+		obiekt2.y = obiekt2.y + 20;
+		if (obiekt2.y >= obiekt1.y - 30 &&((obiekt2.x > obiekt1.x - 30 && obiekt2.x <= obiekt1.x) || (obiekt2.x >= obiekt1.x && obiekt2.x < obiekt1.x + 30))) { obiekt2.y = obiekt1.y - 30; return 0; }
+		if (obiekt2.y >= obiekt3.y - 30 &&((obiekt2.x > obiekt3.x - 30 && obiekt2.x <= obiekt3.x) || (obiekt2.x >= obiekt3.x && obiekt2.x < obiekt3.x + 30))){ obiekt2.y = obiekt3.y - 30; return 0; }
+		if (obiekt2.y >= obiekt4.y - 30 &&((obiekt2.x > obiekt4.x - 30 && obiekt2.x <= obiekt4.x) || (obiekt2.x >= obiekt4.x && obiekt2.x < obiekt4.x + 30))){ obiekt2.y = obiekt4.y - 30; return 0; }
 		if (obiekt2.y >= 570) {
 			obiekt2.y = 570;
 			return 0;
@@ -503,12 +500,10 @@ int drop() {
 		else return 1;
 	}
 	if (grabb3 == true) {
-		obiekt3.y = obiekt3.y + 30;
-		if (obiekt3.y>= obiekt2.y-30 || obiekt3.y>= obiekt1.y-30 || obiekt3.y >= obiekt4.y-30) {
-			if ((obiekt3.x > obiekt1.x - 30 && obiekt3.x <= obiekt1.x) || (obiekt3.x >= obiekt1.x && obiekt3.x < obiekt1.x + 30)) { obiekt3.y = obiekt2.y - 30; return 0; }
-			if ((obiekt3.x > obiekt2.x - 30 && obiekt3.x <= obiekt2.x) || (obiekt3.x >= obiekt2.x && obiekt3.x < obiekt2.x + 30)) { obiekt3.y = obiekt1.y - 30; return 0; }
-			if ((obiekt3.x > obiekt4.x - 30 && obiekt3.x <= obiekt4.x) || (obiekt3.x >= obiekt4.x && obiekt3.x < obiekt4.x + 30)) { obiekt3.y = obiekt4.y - 30; return 0; }
-		}
+		obiekt3.y = obiekt3.y + 20;
+		if (obiekt3.y >= obiekt1.y - 30 &&((obiekt3.x > obiekt1.x - 30 && obiekt3.x <= obiekt1.x) || (obiekt3.x >= obiekt1.x && obiekt3.x < obiekt1.x + 30))) { obiekt3.y = obiekt2.y - 30; return 0; }
+		if (obiekt3.y >= obiekt2.y - 30 &&((obiekt3.x > obiekt2.x - 30 && obiekt3.x <= obiekt2.x) || (obiekt3.x >= obiekt2.x && obiekt3.x < obiekt2.x + 30))) { obiekt3.y = obiekt1.y - 30; return 0; }
+		if (obiekt3.y >= obiekt4.y - 30 &&((obiekt3.x > obiekt4.x - 30 && obiekt3.x <= obiekt4.x) || (obiekt3.x >= obiekt4.x && obiekt3.x < obiekt4.x + 30))) { obiekt3.y = obiekt4.y - 30; return 0; }
 		if (obiekt3.y >= 570) {
 			obiekt3.y = 570;
 			return 0;
@@ -516,12 +511,10 @@ int drop() {
 		else return 1;
 	}
 	if (grabb4 == true) {
-		obiekt4.y = obiekt4.y + 30;
-		if (obiekt4.y>= obiekt2.y-30 || obiekt4.y >= obiekt3.y-30 || obiekt4.y>= obiekt1.y-30) {
-			if ((obiekt4.x > obiekt1.x - 30 && obiekt4.x <= obiekt1.x) || (obiekt4.x >= obiekt1.x && obiekt4.x < obiekt1.x + 30)) { obiekt4.y = obiekt2.y - 30; return 0; }
-			if ((obiekt4.x > obiekt2.x - 30 && obiekt4.x <= obiekt2.x) || (obiekt4.x >= obiekt2.x && obiekt4.x < obiekt2.x + 30)) { obiekt4.y = obiekt3.y - 30; return 0; }
-			if ((obiekt4.x > obiekt3.x - 30 && obiekt4.x <= obiekt3.x) || (obiekt4.x >= obiekt3.x && obiekt4.x < obiekt3.x + 30)) { obiekt4.y = obiekt1.y - 30; return 0; }
-		}
+		obiekt4.y = obiekt4.y + 20;
+		if (obiekt4.y >= obiekt1.y - 30 &&((obiekt4.x > obiekt1.x - 30 && obiekt4.x <= obiekt1.x) || (obiekt4.x >= obiekt1.x && obiekt4.x < obiekt1.x + 30))) { obiekt4.y = obiekt2.y - 30; return 0; }
+		if (obiekt4.y >= obiekt2.y - 30 &&((obiekt4.x > obiekt2.x - 30 && obiekt4.x <= obiekt2.x) || (obiekt4.x >= obiekt2.x && obiekt4.x < obiekt2.x + 30))) { obiekt4.y = obiekt3.y - 30; return 0; }
+		if (obiekt4.y >= obiekt3.y - 30 &&((obiekt4.x > obiekt3.x - 30 && obiekt4.x <= obiekt3.x) || (obiekt4.x >= obiekt3.x && obiekt4.x < obiekt3.x + 30))) { obiekt4.y = obiekt1.y - 30; return 0; }
 		if (obiekt4.y >= 570) {
 			obiekt4.y = 570;
 			return 0;
@@ -536,6 +529,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	int wmId, wmEvent;
 	PAINTSTRUCT ps;
 	HDC hdc;
+	HBITMAP hBmpBk;
+	HDC mem;
+	RECT wndRect;
 	float pp = 2 * 3.14 - asin(0.6);
 	int time = 0;
 	switch (message)
@@ -591,7 +587,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 			}
 			if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
-			RepaintRobot(hWnd, hdc, ps, &drawArea1);
+			RepaintRobot(hWnd, hdc,mem,ps, &drawArea1);
 			break;
 		case ID_BUTTON2:
 			InvalidateRect(hWnd, &drawArea1, TRUE);
@@ -632,7 +628,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 			}
 			if (zapisuje == true) saving(&zapis, &srodek, &koniec,&obiekt1,&obiekt2,&obiekt3,&obiekt4);
-			RepaintRobot(hWnd, hdc, ps, &drawArea1);
+			RepaintRobot(hWnd, hdc, mem, ps, &drawArea1);
 			break;
 		case ID_BUTTON3:
 			InvalidateRect(hWnd, &drawArea1, TRUE);
@@ -693,7 +689,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				}
 			}
 			if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
-			RepaintRobot(hWnd, hdc, ps, &drawArea1);
+			RepaintRobot(hWnd, hdc, mem, ps, &drawArea1);
 			break;
 		case ID_BUTTON4:
 			InvalidateRect(hWnd, &drawArea1, TRUE);
@@ -710,7 +706,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			srodek.y = 600 + sin(srodek.poz) * R;
 			koniec.x = srodek.x + cos(koniec.poz) * R;
 			koniec.y = srodek.y + sin(koniec.poz) * R;
-		//	ogranicz();
 			if (srodek.y >=600 && ((p1 > 3.14 && p1 < 4.71)) || p1 == 3.14) {
 				koniec.poz = p2 - p1 + 3.14;
 				srodek.poz = 3.14;
@@ -737,7 +732,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			}
 			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true) grab();
 			if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
-			RepaintRobot(hWnd, hdc, ps, &drawArea1);
+			RepaintRobot(hWnd, hdc, mem, ps, &drawArea1);
 			break;
 		case ID_BUTTON6:
 			q -= 2;
@@ -758,7 +753,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			srodek.poz = pp;
 			koniec.poz = pp;
 			if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
-			RepaintRobot(hWnd, hdc, ps, &drawArea1);
+			RepaintRobot(hWnd, hdc, mem, ps, &drawArea1);
 			break;
 		case ID_BUTTON8:
 			zapisuje = true;
@@ -805,12 +800,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			InvalidateRect(hWnd, &drawArea1, TRUE);
 			obj = true;
 			obj1 = true;
-			RepaintRobot(hWnd, hdc, ps, &drawArea1);
+			RepaintRobot(hWnd, hdc, mem, ps, &drawArea1);
 			obj = false;
 			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}
+		break;
+	case WM_CREATE:
+		mem = CreateCompatibleDC(GetDC(NULL));
+		hBmpBk = CreateCompatibleBitmap(GetDC(NULL), 1000, 640);
+		SelectObject(mem, hBmpBk);
 		break;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
@@ -831,7 +831,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				if (t2 == 1) {
 					InvalidateRect(hWnd, &drawArea1, TRUE);
 					if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
-					RepaintRobot(hWnd, hdc, ps, &drawArea1);
+					RepaintRobot(hWnd, hdc, mem, ps, &drawArea1);
 				}
 				if (t2 == 0) {
 					time = 0;
@@ -839,7 +839,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					InvalidateRect(hWnd, &drawArea1, TRUE);
 					if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
 					dropping = false;
-					RepaintRobot(hWnd, hdc, ps, &drawArea1);
+					RepaintRobot(hWnd, hdc, mem, ps, &drawArea1);
 					if (grabb1 == true)  grabb1 = false;
 					if (grabb2 == true) grabb2 = false;
 					if (grabb3 == true) grabb3 = false;
@@ -849,9 +849,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			if (id == ID_BUTTON10) {
 				int t1;
 				t1 = play(&zapis, hWnd);
-				if (t1 == 1) RepaintRobot(hWnd, hdc, ps, &drawArea1);
+				if (t1 == 1) RepaintRobot(hWnd, hdc, mem, ps, &drawArea1);
 				if (t1 == 0) {
-					RepaintRobot(hWnd, hdc, ps, &drawArea1);
+					RepaintRobot(hWnd, hdc, mem, ps, &drawArea1);
 					KillTimer(hWnd, TMR_1);
 				}
 			}
