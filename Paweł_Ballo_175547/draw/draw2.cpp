@@ -36,6 +36,8 @@ struct bufor {
 	object grabbing2;
 	object grabbing3;
 	object grabbing4;
+	object grabbing5;
+	object grabbing6;
 };
 
 
@@ -62,6 +64,10 @@ object obiekt3;
 bool grabb3 = false;
 object obiekt4;
 bool grabb4 = false;
+object obiekt5;
+bool grabb5 = false;
+object obiekt6;
+bool grabb6 = false;
 HINSTANCE hInst;
 
 TCHAR szTitle[MAX_LOADSTRING];
@@ -113,7 +119,15 @@ void PaintRobot(HDC hdc) {
 		graphics.FillRectangle(&brush3, (int)obiekt3.x, (int)obiekt3.y, 30,30);
 		SolidBrush brush4(Color(255, 106, 90, 205));
 		if (obj == true)creatobject(&obiekt4, i4);
+		i4 = 4;
 		graphics.FillRectangle(&brush4, (int)obiekt4.x, (int)obiekt4.y, 30,30);
+		SolidBrush brush5(Color(255, 236, 24, 208));
+		if (obj == true)creatobject(&obiekt5, i4);
+		i4 = 5;
+		graphics.FillRectangle(&brush5, (int)obiekt5.x, (int)obiekt5.y, 30, 30);
+		SolidBrush brush6(Color(255, 108, 91, 106));
+		if (obj == true)creatobject(&obiekt6, i4);
+		graphics.FillRectangle(&brush6, (int)obiekt6.x, (int)obiekt6.y, 30, 30);
 	}
 }
 
@@ -371,7 +385,7 @@ void spr(pozycja* koniec1, pozycja* srodek2) {
 	}
 }
 
-void saving(std::queue<bufor>* save, pozycja* middle, pozycja* end, object* obiekt1, object* obiekt2, object* obiekt3, object* obiekt4 ) {
+void saving(std::queue<bufor>* save, pozycja* middle, pozycja* end, object* obiekt1, object* obiekt2, object* obiekt3, object* obiekt4, object* obiekt5, object* obiekt6) {
 	bufor tymczas;
 	tymczas.middle.poz = middle->poz;
 	tymczas.middle.x = middle->x;
@@ -388,6 +402,10 @@ void saving(std::queue<bufor>* save, pozycja* middle, pozycja* end, object* obie
 		tymczas.grabbing3.y = obiekt3->y;
 		tymczas.grabbing4.x = obiekt4->x;
 		tymczas.grabbing4.y = obiekt4->y;
+		tymczas.grabbing5.x = obiekt5->x;
+		tymczas.grabbing5.y = obiekt5->y;
+		tymczas.grabbing6.x = obiekt6->x;
+		tymczas.grabbing6.y = obiekt6->y;
 	}
 
 	if (!(*save).empty()) {
@@ -425,6 +443,10 @@ int play(std::queue<bufor>* save, HWND hWnd) {
 		obiekt3.y= ((*save).front()).grabbing3.y;
 		obiekt4.x= ((*save).front()).grabbing4.x;
 		obiekt4.y= ((*save).front()).grabbing4.y;
+		obiekt5.x = ((*save).front()).grabbing5.x;
+		obiekt5.y = ((*save).front()).grabbing5.y;
+		obiekt6.x = ((*save).front()).grabbing6.x;
+		obiekt6.y = ((*save).front()).grabbing6.y;
 		(*save).pop();
 		return 1;
 	}
@@ -458,10 +480,26 @@ void creatobject(object* b, int i) {
 		(*b).y = 570;
 		(*b).x = wylos;
 	}
+	if (i == 4) {
+		do {
+			wylos = (std::rand() % 700) + 110;
+		} while (!(((obiekt1.x > wylos + 40 && obiekt1.x > wylos) || (obiekt1.x + 40 < wylos && obiekt1.x + 40 < wylos + 40)) && ((obiekt2.x > wylos + 40 && obiekt2.x > wylos) || (obiekt2.x + 40 < wylos && obiekt2.x + 40 < wylos + 40)) && ((obiekt3.x > wylos + 40 && obiekt3.x > wylos) || (obiekt3.x + 40 < wylos && obiekt3.x + 40 < wylos + 40))&&((obiekt4.x > wylos + 30 && obiekt4.x > wylos) || (obiekt4.x + 30 < wylos && obiekt4.x + 30 < wylos + 30))));
+		(*b).y = 570;
+		(*b).x = wylos;
+	}
+	if (i == 5) {
+		do {
+			wylos = (std::rand() % 700) + 110;
+		} while (!(((obiekt1.x > wylos + 40 && obiekt1.x > wylos) || (obiekt1.x + 40 < wylos && obiekt1.x + 40 < wylos + 40)) && ((obiekt2.x > wylos + 40 && obiekt2.x > wylos) || (obiekt2.x + 40 < wylos && obiekt2.x + 40 < wylos + 40)) && ((obiekt3.x > wylos + 40 && obiekt3.x > wylos) || (obiekt3.x + 40 < wylos && obiekt3.x + 40 < wylos + 40))&&((obiekt4.x > wylos + 30 && obiekt4.x > wylos) || (obiekt4.x + 30 < wylos && obiekt4.x + 30 < wylos + 30))&&((obiekt5.x > wylos + 30 && obiekt5.x > wylos) || (obiekt5.x + 30 < wylos && obiekt5.x + 30 < wylos + 30))));
+		(*b).y = 570;
+		(*b).x = wylos;
+	}
 	grabb1 = false;
 	grabb2 = false;
 	grabb3 = false;
 	grabb4 = false;
+	grabb5 = false;
+	grabb6 = false;
 }
 
 void grab() {
@@ -481,6 +519,14 @@ void grab() {
 		obiekt4.x = koniec.x + roznicaX;
 		obiekt4.y = koniec.y + roznicaY;
 	}
+	if (grabb5 == true) {
+		obiekt5.x = koniec.x + roznicaX;
+		obiekt5.y = koniec.y + roznicaY;
+	}
+	if (grabb6 == true) {
+		obiekt6.x = koniec.x + roznicaX;
+		obiekt6.y = koniec.y + roznicaY;
+	}
 }
 
 int drop() {
@@ -489,6 +535,8 @@ int drop() {
 		if (obiekt1.y >= obiekt2.y - 30 && ((obiekt1.x > obiekt2.x - 30 && obiekt1.x<=obiekt2.x)|| (obiekt1.x>=obiekt2.x && obiekt1.x < obiekt2.x + 30))) { obiekt1.y = obiekt2.y - 30; return 0; }
 		if (obiekt1.y >= obiekt3.y - 30 &&((obiekt1.x > obiekt3.x - 30 && obiekt1.x <= obiekt3.x) || (obiekt1.x >= obiekt3.x && obiekt1.x < obiekt3.x + 30))) { obiekt1.y = obiekt3.y - 30; return 0; }
 		if (obiekt1.y >= obiekt4.y - 30 &&((obiekt1.x > obiekt4.x - 30 && obiekt1.x <= obiekt4.x) || (obiekt1.x >= obiekt4.x && obiekt1.x < obiekt4.x + 30))) { obiekt1.y = obiekt4.y - 30; return 0; }
+		if (obiekt1.y >= obiekt5.y - 30 &&((obiekt1.x > obiekt5.x - 30 && obiekt1.x <= obiekt5.x) || (obiekt1.x >= obiekt5.x && obiekt1.x < obiekt5.x + 30))) { obiekt1.y = obiekt5.y - 30; return 0; }
+		if (obiekt1.y >= obiekt6.y - 30 &&((obiekt1.x > obiekt6.x - 30 && obiekt1.x <= obiekt6.x) || (obiekt1.x >= obiekt6.x && obiekt1.x < obiekt6.x + 30))) { obiekt1.y = obiekt6.y - 30; return 0; }
 		if (obiekt1.y >= 570) {
 			obiekt1.y = 570;
 			return 0;
@@ -500,6 +548,8 @@ int drop() {
 		if (obiekt2.y >= obiekt1.y - 30 &&((obiekt2.x > obiekt1.x - 30 && obiekt2.x <= obiekt1.x) || (obiekt2.x >= obiekt1.x && obiekt2.x < obiekt1.x + 30))) { obiekt2.y = obiekt1.y - 30; return 0; }
 		if (obiekt2.y >= obiekt3.y - 30 &&((obiekt2.x > obiekt3.x - 30 && obiekt2.x <= obiekt3.x) || (obiekt2.x >= obiekt3.x && obiekt2.x < obiekt3.x + 30))){ obiekt2.y = obiekt3.y - 30; return 0; }
 		if (obiekt2.y >= obiekt4.y - 30 &&((obiekt2.x > obiekt4.x - 30 && obiekt2.x <= obiekt4.x) || (obiekt2.x >= obiekt4.x && obiekt2.x < obiekt4.x + 30))){ obiekt2.y = obiekt4.y - 30; return 0; }
+		if (obiekt2.y >= obiekt5.y - 30 &&((obiekt2.x > obiekt5.x - 30 && obiekt2.x <= obiekt5.x) || (obiekt2.x >= obiekt5.x && obiekt2.x < obiekt5.x + 30))){ obiekt2.y = obiekt5.y - 30; return 0; }
+		if (obiekt2.y >= obiekt6.y - 30 &&((obiekt2.x > obiekt6.x - 30 && obiekt2.x <= obiekt6.x) || (obiekt2.x >= obiekt6.x && obiekt2.x < obiekt6.x + 30))){ obiekt2.y = obiekt6.y - 30; return 0; }
 		if (obiekt2.y >= 570) {
 			obiekt2.y = 570;
 			return 0;
@@ -511,6 +561,8 @@ int drop() {
 		if (obiekt3.y >= obiekt1.y - 30 &&((obiekt3.x > obiekt1.x - 30 && obiekt3.x <= obiekt1.x) || (obiekt3.x >= obiekt1.x && obiekt3.x < obiekt1.x + 30))) { obiekt3.y = obiekt1.y - 30; return 0; }
 		if (obiekt3.y >= obiekt2.y - 30 &&((obiekt3.x > obiekt2.x - 30 && obiekt3.x <= obiekt2.x) || (obiekt3.x >= obiekt2.x && obiekt3.x < obiekt2.x + 30))) { obiekt3.y = obiekt2.y - 30; return 0; }
 		if (obiekt3.y >= obiekt4.y - 30 &&((obiekt3.x > obiekt4.x - 30 && obiekt3.x <= obiekt4.x) || (obiekt3.x >= obiekt4.x && obiekt3.x < obiekt4.x + 30))) { obiekt3.y = obiekt4.y - 30; return 0; }
+		if (obiekt3.y >= obiekt5.y - 30 &&((obiekt3.x > obiekt5.x - 30 && obiekt3.x <= obiekt5.x) || (obiekt3.x >= obiekt5.x && obiekt3.x < obiekt5.x + 30))) { obiekt3.y = obiekt5.y - 30; return 0; }
+		if (obiekt3.y >= obiekt6.y - 30 &&((obiekt3.x > obiekt6.x - 30 && obiekt3.x <= obiekt6.x) || (obiekt3.x >= obiekt6.x && obiekt3.x < obiekt6.x + 30))) { obiekt3.y = obiekt6.y - 30; return 0; }
 		if (obiekt3.y >= 570) {
 			obiekt3.y = 570;
 			return 0;
@@ -522,8 +574,36 @@ int drop() {
 		if (obiekt4.y >= obiekt1.y - 30 &&((obiekt4.x > obiekt1.x - 30 && obiekt4.x <= obiekt1.x) || (obiekt4.x >= obiekt1.x && obiekt4.x < obiekt1.x + 30))) { obiekt4.y = obiekt1.y - 30; return 0; }
 		if (obiekt4.y >= obiekt2.y - 30 &&((obiekt4.x > obiekt2.x - 30 && obiekt4.x <= obiekt2.x) || (obiekt4.x >= obiekt2.x && obiekt4.x < obiekt2.x + 30))) { obiekt4.y = obiekt2.y - 30; return 0; }
 		if (obiekt4.y >= obiekt3.y - 30 &&((obiekt4.x > obiekt3.x - 30 && obiekt4.x <= obiekt3.x) || (obiekt4.x >= obiekt3.x && obiekt4.x < obiekt3.x + 30))) { obiekt4.y = obiekt3.y - 30; return 0; }
+		if (obiekt4.y >= obiekt5.y - 30 &&((obiekt4.x > obiekt5.x - 30 && obiekt4.x <= obiekt5.x) || (obiekt4.x >= obiekt5.x && obiekt4.x < obiekt5.x + 30))) { obiekt4.y = obiekt5.y - 30; return 0; }
+		if (obiekt4.y >= obiekt6.y - 30 &&((obiekt4.x > obiekt6.x - 30 && obiekt4.x <= obiekt6.x) || (obiekt4.x >= obiekt6.x && obiekt4.x < obiekt6.x + 30))) { obiekt4.y = obiekt6.y - 30; return 0; }
 		if (obiekt4.y >= 570) {
 			obiekt4.y = 570;
+			return 0;
+		}
+		else return 1;
+	}
+	if (grabb5 == true) {
+		obiekt5.y = obiekt5.y + 10;
+		if (obiekt5.y >= obiekt1.y - 30 && ((obiekt5.x > obiekt1.x - 30 && obiekt5.x <= obiekt1.x) || (obiekt5.x >= obiekt1.x && obiekt5.x < obiekt1.x + 30))) { obiekt5.y = obiekt1.y - 30; return 0; }
+		if (obiekt5.y >= obiekt2.y - 30 && ((obiekt5.x > obiekt2.x - 30 && obiekt5.x <= obiekt2.x) || (obiekt5.x >= obiekt2.x && obiekt5.x < obiekt2.x + 30))) { obiekt5.y = obiekt2.y - 30; return 0; }
+		if (obiekt5.y >= obiekt3.y - 30 && ((obiekt5.x > obiekt3.x - 30 && obiekt5.x <= obiekt3.x) || (obiekt5.x >= obiekt3.x && obiekt5.x < obiekt3.x + 30))) { obiekt5.y = obiekt3.y - 30; return 0; }
+		if (obiekt5.y >= obiekt4.y - 30 && ((obiekt5.x > obiekt4.x - 30 && obiekt5.x <= obiekt4.x) || (obiekt5.x >= obiekt4.x && obiekt5.x < obiekt4.x + 30))) { obiekt5.y = obiekt4.y - 30; return 0; }
+		if (obiekt5.y >= obiekt6.y - 30 && ((obiekt5.x > obiekt6.x - 30 && obiekt5.x <= obiekt6.x) || (obiekt5.x >= obiekt6.x && obiekt5.x < obiekt6.x + 30))) { obiekt5.y = obiekt6.y - 30; return 0; }
+		if (obiekt5.y >= 570) {
+			obiekt5.y = 570;
+			return 0;
+		}
+		else return 1;
+	}
+	if (grabb6 == true) {
+		obiekt6.y = obiekt6.y + 10;
+		if (obiekt6.y >= obiekt1.y - 30 && ((obiekt6.x > obiekt1.x - 30 && obiekt6.x <= obiekt1.x) || (obiekt6.x >= obiekt1.x && obiekt6.x < obiekt1.x + 30))) { obiekt6.y = obiekt1.y - 30; return 0; }
+		if (obiekt6.y >= obiekt2.y - 30 && ((obiekt6.x > obiekt2.x - 30 && obiekt6.x <= obiekt2.x) || (obiekt6.x >= obiekt2.x && obiekt6.x < obiekt2.x + 30))) { obiekt6.y = obiekt2.y - 30; return 0; }
+		if (obiekt6.y >= obiekt3.y - 30 && ((obiekt6.x > obiekt3.x - 30 && obiekt6.x <= obiekt3.x) || (obiekt6.x >= obiekt3.x && obiekt6.x < obiekt3.x + 30))) { obiekt6.y = obiekt3.y - 30; return 0; }
+		if (obiekt6.y >= obiekt4.y - 30 && ((obiekt6.x > obiekt4.x - 30 && obiekt6.x <= obiekt4.x) || (obiekt6.x >= obiekt4.x && obiekt6.x < obiekt4.x + 30))) { obiekt6.y = obiekt4.y - 30; return 0; }
+		if (obiekt6.y >= obiekt5.y - 30 && ((obiekt6.x > obiekt5.x - 30 && obiekt6.x <= obiekt5.x) || (obiekt6.x >= obiekt5.x && obiekt6.x < obiekt5.x + 30))) { obiekt6.y = obiekt5.y - 30; return 0; }
+		if (obiekt6.y >= 570) {
+			obiekt6.y = 570;
 			return 0;
 		}
 		else return 1;
@@ -571,7 +651,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				koniec.y = 600;
 				koniec.x = srodek.x + cos(koniec.poz) * R;
 			}
-			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true) {
+			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true || grabb5 == true || grabb6 == true) {
 				grab();
 				if (obiekt1.y+30 > 600) {
 					obiekt1.y = 570;
@@ -589,8 +669,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					obiekt4.y = 570;
 					koniec.y = obiekt4.y - roznicaY;
 				}
+				if (obiekt5.y + 30 > 600) {
+					obiekt5.y = 570;
+					koniec.y = obiekt5.y - roznicaY;
+				}
+				if (obiekt6.y + 30 > 600) {
+					obiekt6.y = 570;
+					koniec.y = obiekt6.y - roznicaY;
+				}
 			}
-			if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
+			if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4, &obiekt5, &obiekt6);
 			RepaintRobot(hWnd, hdc,ps,&drawArea1);
 			break;
 		case ID_BUTTON2:
@@ -612,7 +700,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				koniec.y = 600;
 				koniec.x = srodek.x + cos(koniec.poz) * R;
 			} 
-			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true) {
+			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true || grabb5 == true || grabb6 == true) {
 				grab();
 				if (obiekt1.y + 30 > 600) {
 					obiekt1.y = 570;
@@ -630,8 +718,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					obiekt4.y = 570;
 					koniec.y = obiekt4.y - roznicaY;
 				}
+				if (obiekt5.y + 30 > 600) {
+					obiekt5.y = 570;
+					koniec.y = obiekt5.y - roznicaY;
+				}
+				if (obiekt6.y + 30 > 600) {
+					obiekt6.y = 570;
+					koniec.y = obiekt6.y - roznicaY;
+				}
 			}
-			if (zapisuje == true) saving(&zapis, &srodek, &koniec,&obiekt1,&obiekt2,&obiekt3,&obiekt4);
+			if (zapisuje == true) saving(&zapis, &srodek, &koniec,&obiekt1,&obiekt2,&obiekt3,&obiekt4, &obiekt5, &obiekt6);
 			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			break;
 		case ID_BUTTON3:
@@ -673,7 +769,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				koniec.y = 600;
 				srodek.y = 600 + sin(srodek.poz) * R;
 			}
-			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true) {
+			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true || grabb5 == true || grabb6 == true) {
 				grab();
 				if (obiekt1.y + 30 > 600) {
 					obiekt1.y = 570;
@@ -691,8 +787,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					obiekt4.y = 570;
 					koniec.y = obiekt4.y - roznicaY;
 				}
+				if (obiekt5.y + 30 > 600) {
+					obiekt5.y = 570;
+					koniec.y = obiekt5.y - roznicaY;
+				}
+				if (obiekt6.y + 30 > 600) {
+					obiekt6.y = 570;
+					koniec.y = obiekt6.y - roznicaY;
+				}
 			}
-			if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
+			if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4, &obiekt5, &obiekt6);
 			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			break;
 		case ID_BUTTON4:
@@ -734,8 +838,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				koniec.y = 600;
 				srodek.y = 600 + sin(srodek.poz) * R;
 			}
-			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true) grab();
-			if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
+			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true || grabb5 == true || grabb6 == true) grab();
+			if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4, &obiekt5, &obiekt6);
 			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			break;
 		case ID_BUTTON6:
@@ -756,12 +860,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			koniec.y = 360;
 			srodek.poz = pp;
 			koniec.poz = pp;
-			if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
+			if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4, &obiekt5, &obiekt6);
 			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			break;
 		case ID_BUTTON8:
 			zapisuje = true;
-			saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
+			saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4, &obiekt5, &obiekt6);
 			break;
 		case ID_BUTTON9:
 			zapisuje = false;
@@ -792,9 +896,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				roznicaX = obiekt4.x - koniec.x;
 				roznicaY = obiekt4.y - koniec.y;
 			}
+			if (obj1 == true && obiekt5.x <= koniec.x && koniec.x <= obiekt5.x + 30 && obiekt5.y <= koniec.y && koniec.y <= obiekt5.y + 30) {
+				grabb5 = true;
+				roznicaX = obiekt5.x - koniec.x;
+				roznicaY = obiekt5.y - koniec.y;
+			}
+			if (obj1 == true && obiekt6.x <= koniec.x && koniec.x <= obiekt6.x + 30 && obiekt6.y <= koniec.y && koniec.y <= obiekt6.y + 30) {
+				grabb6 = true;
+				roznicaX = obiekt6.x - koniec.x;
+				roznicaY = obiekt6.y - koniec.y;
+			}
 			break;
 		case ID_BUTTON12:
-			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true) {
+			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true || grabb5 == true || grabb6 == true) {
 				id = ID_BUTTON12;
 				dropping = true;
 				SetTimer(hWnd, TMR_1, 35, NULL);
@@ -829,20 +943,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				t2 = drop();
 				if (t2 == 1) {
 					InvalidateRect(hWnd, &drawArea1, TRUE);
-					if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
+					if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4, &obiekt5, &obiekt6);
 					RepaintRobot(hWnd, hdc, ps, &drawArea1);
 				}
 				if (t2 == 0) {
 					time = 0;
 					KillTimer(hWnd, TMR_1);
 					InvalidateRect(hWnd, &drawArea1, TRUE);
-					if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4);
+					if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4, &obiekt5, &obiekt6);
 					dropping = false;
 					RepaintRobot(hWnd, hdc, ps, &drawArea1);
 					if (grabb1 == true)  grabb1 = false;
 					if (grabb2 == true) grabb2 = false;
 					if (grabb3 == true) grabb3 = false;
 					if (grabb4 == true) grabb4 = false;
+					if (grabb5 == true) grabb5 = false;
+					if (grabb6 == true) grabb6 = false;
 				}
 			}
 			if (id == ID_BUTTON10) {
