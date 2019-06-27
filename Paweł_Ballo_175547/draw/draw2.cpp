@@ -46,7 +46,7 @@ int q = 4;
 float m = 0;
 int id;
 float n = 0;
-int tm = 0;
+int u = 0;
 bool zapisuje = false;
 bool dropping = false;
 bool obj = false;
@@ -319,45 +319,54 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		TEXT("koniec zapisu"),
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		640, 0,
-		90, 50,
+		100, 50,
 		hWnd,
 		(HMENU)ID_BUTTON9,
 		hInstance,
 		NULL);
 	hwndButton = CreateWindow(TEXT("button"),
-		TEXT("odwtorz"),
+		TEXT("odwtórz"),
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		730, 0,
+		740, 0,
 		80, 50,
 		hWnd,
 		(HMENU)ID_BUTTON10,
 		hInstance,
 		NULL);
 	hwndButton = CreateWindow(TEXT("button"),
-		TEXT("grab"),
+		TEXT("chwyæ"),
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		810, 0,
+		820, 0,
 		80, 50,
 		hWnd,
 		(HMENU)ID_BUTTON11,
 		hInstance,
 		NULL);
 	hwndButton = CreateWindow(TEXT("button"),
-		TEXT("drop"),
+		TEXT("puœæ"),
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		890, 0,
+		900, 0,
 		80, 50,
 		hWnd,
 		(HMENU)ID_BUTTON12,
 		hInstance,
 		NULL);
 	hwndButton = CreateWindow(TEXT("button"),
-		TEXT("creating objects"),
+		TEXT("stwórz obiekty"),
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		970, 0,
+		980, 0,
 		110, 50,
 		hWnd,
 		(HMENU)ID_BUTTON13,
+		hInstance,
+		NULL);
+	hwndButton = CreateWindow(TEXT("button"),
+		TEXT("usuñ zapis"),
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		1090, 0,
+		110, 50,
+		hWnd,
+		(HMENU)ID_BUTTON14,
 		hInstance,
 		NULL);
 	OnCreate(hWnd);
@@ -428,9 +437,14 @@ void spraw(float* k1, float* k2) {
 }
 
 int play(std::queue<bufor>* save, HWND hWnd) {
-	if ((*save).empty()) return 0;
+	if (u == (*save).size()){
+		u = 0;
+		return 0; 
+	}
 	else {
+		u++;
 		InvalidateRect(hWnd, &drawArea1, TRUE);
+		(*save).push((*save).front());
 		srodek.x = ((*save).front()).middle.x;
 		srodek.y = ((*save).front()).middle.y;
 		koniec.x = ((*save).front()).end.x;
@@ -500,6 +514,12 @@ void creatobject(object* b, int i) {
 	grabb4 = false;
 	grabb5 = false;
 	grabb6 = false;
+}
+
+void dlt() {
+	while (!zapis.empty()) {
+		zapis.pop();
+	}
 }
 
 void grab() {
@@ -617,7 +637,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	PAINTSTRUCT ps;
 	HDC hdc;
 	float pp = 2 * 3.14 - asin(0.6);
-	int time = 0;
 	switch (message)
 	{
 	case WM_COMMAND:
@@ -921,6 +940,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			obj = false;
 			break;
+		case ID_BUTTON14:
+			if(id!= ID_BUTTON10)dlt();
+			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}
@@ -947,8 +969,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 					RepaintRobot(hWnd, hdc, ps, &drawArea1);
 				}
 				if (t2 == 0) {
-					time = 0;
 					KillTimer(hWnd, TMR_1);
+					id = 0;
 					InvalidateRect(hWnd, &drawArea1, TRUE);
 					if (zapisuje == true) saving(&zapis, &srodek, &koniec, &obiekt1, &obiekt2, &obiekt3, &obiekt4, &obiekt5, &obiekt6);
 					dropping = false;
@@ -968,6 +990,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				if (t1 == 0) {
 					RepaintRobot(hWnd, hdc, ps, &drawArea1);
 					KillTimer(hWnd, TMR_1);
+					id = 0;
 				}
 			}
 			break;
