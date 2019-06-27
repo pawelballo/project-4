@@ -334,34 +334,34 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		hInstance,
 		NULL);
 	hwndButton = CreateWindow(TEXT("button"),
-		TEXT("chwyæ"),
+		TEXT("usuñ zapis"),
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		820, 0,
-		80, 50,
+		110, 50,
 		hWnd,
 		(HMENU)ID_BUTTON11,
 		hInstance,
 		NULL);
 	hwndButton = CreateWindow(TEXT("button"),
-		TEXT("puœæ"),
+		TEXT("chwyæ"),
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		900, 0,
+		930, 0,
 		80, 50,
 		hWnd,
 		(HMENU)ID_BUTTON12,
 		hInstance,
 		NULL);
 	hwndButton = CreateWindow(TEXT("button"),
-		TEXT("stwórz obiekty"),
+		TEXT("puœæ"),
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		980, 0,
-		110, 50,
+		1010, 0,
+		80, 50,
 		hWnd,
 		(HMENU)ID_BUTTON13,
 		hInstance,
 		NULL);
 	hwndButton = CreateWindow(TEXT("button"),
-		TEXT("usuñ zapis"),
+		TEXT("stwórz obiekty"),
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		1090, 0,
 		110, 50,
@@ -894,8 +894,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			if (zapisuje == false) SetTimer(hWnd, TMR_1, 120, NULL);
 			break;
 		case ID_BUTTON11:
-			 
-			if (obj1 == true && obiekt1.x<=koniec.x && koniec.x<=obiekt1.x+30 && obiekt1.y <= koniec.y && koniec.y <= obiekt1.y + 30) {
+			if (id != ID_BUTTON10)dlt();
+			break;
+		case ID_BUTTON12:
+			if (obj1 == true && obiekt1.x <= koniec.x && koniec.x <= obiekt1.x + 30 && obiekt1.y <= koniec.y && koniec.y <= obiekt1.y + 30) {
 				grabb1 = true;
 				roznicaX = obiekt1.x - koniec.x;
 				roznicaY = obiekt1.y - koniec.y;
@@ -926,22 +928,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				roznicaY = obiekt6.y - koniec.y;
 			}
 			break;
-		case ID_BUTTON12:
+		case ID_BUTTON13:
 			if (grabb1 == true || grabb2 == true || grabb3 == true || grabb4 == true || grabb5 == true || grabb6 == true) {
-				id = ID_BUTTON12;
+				id = ID_BUTTON13;
 				dropping = true;
 				SetTimer(hWnd, TMR_1, 35, NULL);
 			}
 			break;
-		case ID_BUTTON13:
+		case ID_BUTTON14:
 			InvalidateRect(hWnd, &drawArea1, TRUE);
 			obj = true;
 			obj1 = true;
 			RepaintRobot(hWnd, hdc, ps, &drawArea1);
 			obj = false;
-			break;
-		case ID_BUTTON14:
-			if(id!= ID_BUTTON10)dlt();
 			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
@@ -960,7 +959,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		switch (wParam)
 		{
 		case TMR_1:
-			if (id == ID_BUTTON12) {
+			if (id == ID_BUTTON13) {
 				int t2;
 				t2 = drop();
 				if (t2 == 1) {
